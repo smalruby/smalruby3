@@ -1,17 +1,17 @@
 # -*- coding: utf-8 -*-
-require 'smalruby/version'
+require 'smalruby3/version'
 require 'active_support/all'
 require 'dxruby'
 require 'English'
 require 'pathname'
 
-require 'smalruby/util'
-require 'smalruby/world'
-require 'smalruby/color'
-require 'smalruby/character'
-require 'smalruby/event_handler'
+require 'smalruby3/util'
+require 'smalruby3/world'
+require 'smalruby3/color'
+require 'smalruby3/character'
+require 'smalruby3/event_handler'
 
-module Smalruby
+module Smalruby3
   extend ActiveSupport::Autoload
 
   autoload :Console
@@ -221,14 +221,14 @@ module Smalruby
   end
 end
 
-include Smalruby
+include Smalruby3
 
-if Util.windows? || ENV['SMALRUBY_WINDOWED']
+if Util.windows? || ENV['SMALRUBY3_WINDOWED']
   Window.windowed = true
 else
   Window.windowed = false
 end
 
 at_exit do
-  Smalruby.start if !$ERROR_INFO && !Smalruby.started?
+  Smalruby3.start if !$ERROR_INFO && !Smalruby3.started?
 end

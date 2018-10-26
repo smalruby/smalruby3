@@ -47,11 +47,11 @@ task :build do
   ENV['GEM_PLATFORM'] = 'linux'
   Rake::Task['gem:build'].invoke
 
-  require 'smalruby/version'
+  require 'smalruby3/version'
   Bundler.with_clean_env do
     ENV['GEM_PLATFORM'] = 'x86-mingw32'
-    dest = "smalruby-#{Smalruby::VERSION}-#{ENV['GEM_PLATFORM']}.gem"
-    sh "gem build smalruby.gemspec && mv #{dest} pkg/"
+    dest = "smalruby3-#{Smalruby3::VERSION}-#{ENV['GEM_PLATFORM']}.gem"
+    sh "gem build smalruby3.gemspec && mv #{dest} pkg/"
   end
 end
 
@@ -59,17 +59,17 @@ task :release do
   ENV['GEM_PLATFORM'] = 'linux'
   Rake::Task['gem:release'].invoke
 
-  require 'smalruby/version'
+  require 'smalruby3/version'
   Bundler.with_clean_env do
     ENV['GEM_PLATFORM'] = 'x86-mingw32'
-    dest = "smalruby-#{Smalruby::VERSION}-#{ENV['GEM_PLATFORM']}.gem"
-    sh "gem build smalruby.gemspec && mv #{dest} pkg/ && gem push pkg/#{dest}"
+    dest = "smalruby3-#{Smalruby3::VERSION}-#{ENV['GEM_PLATFORM']}.gem"
+    sh "gem build smalruby3.gemspec && mv #{dest} pkg/ && gem push pkg/#{dest}"
   end
 
-  next_version = Smalruby::VERSION.split('.').tap { |versions|
+  next_version = Smalruby3::VERSION.split('.').tap { |versions|
     versions[-1] = (versions[-1].to_i + 1).to_s
   }.join('.')
-  File.open('lib/smalruby/version.rb', 'r+') do |f|
+  File.open('lib/smalruby3/version.rb', 'r+') do |f|
     lines = []
     while line = f.gets
       line = "#{$1}'#{next_version}'\n" if /(\s*VERSION =\s*)/.match(line)
@@ -78,7 +78,7 @@ task :release do
     f.rewind
     f.write(lines.join)
   end
-  sh 'git add lib/smalruby/version.rb'
+  sh 'git add lib/smalruby3/version.rb'
   sh "git commit -m #{next_version}"
   sh 'git push'
 end
