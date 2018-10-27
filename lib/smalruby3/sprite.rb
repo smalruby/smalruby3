@@ -72,7 +72,7 @@ module Smalruby3
         send("#{k}=", v)
       end
 
-      World.instance.add_sprite(self)
+      world.add_sprite(self)
 
       if block_given?
         instance_eval(&block)
@@ -171,6 +171,10 @@ module Smalruby3
     end
 
     private
+
+    def world
+      World.instance
+    end
 
     def draw_pen(left, top, right, bottom)
       return if Util.raspberrypi? || !visible || vanished?
