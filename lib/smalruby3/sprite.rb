@@ -3,6 +3,7 @@ require "mutex_m"
 
 require_relative "util"
 require_relative "world"
+require_relative "event_handler"
 require_relative "sprite_method"
 require_relative "sprite_method/motion"
 require_relative "sprite_method/looks"
@@ -35,7 +36,7 @@ module Smalruby3
     attr_accessor :name
     attr_accessor :x
     attr_accessor :y
-    attr_accessor :direction
+    attr_reader :direction
     attr_accessor :visible
     attr_accessor :size
     attr_accessor :current_costume
@@ -46,6 +47,7 @@ module Smalruby3
 
     attr_accessor :event_handlers
     attr_accessor :threads
+
     attr_accessor :checking_hit_targets
     attr_reader :enable_pen
     attr_accessor :pen_color
@@ -54,6 +56,8 @@ module Smalruby3
     def initialize(name, options = {}, &block)
       @name = name
       @vector = { x: 1, y: 0 }
+      @event_handlers = {}
+      @threads = []
 
       defaults = {
         x: 0,
@@ -165,7 +169,15 @@ module Smalruby3
       @threads.length > 0
     end
 
-    def join
+    def fire(event, *options)
+      @event_handlers[event].each do |e|
+        if e.options == options
+          @threads << e.call
+        end
+      end
+    end
+
+    def join_threads
       @threads.compact!
       @threads.each(&:join)
     end
@@ -174,6 +186,13 @@ module Smalruby3
 
     def world
       World.instance
+    end
+
+    def sync_direction
+      degrees = (direction - 90) % 360
+      radian = degrees * Math::PI / 180
+      @vector[:x] = Math.cos(radian)
+      @vector[:y] = Math.sin(radian)
     end
 
     def draw_pen(left, top, right, bottom)

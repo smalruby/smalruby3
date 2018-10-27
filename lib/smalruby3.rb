@@ -10,6 +10,15 @@ require_relative "smalruby3/world"
 require_relative "smalruby3/sprite"
 
 module Smalruby3
+  class StopAll < Exception
+  end
+
+  class StopThisScript < Exception
+  end
+
+  class StopOtherScripts < Exception
+  end
+
   module_function
 
   def start
@@ -28,7 +37,7 @@ module Smalruby3
     return World.instance
   end
 
-  def await
+  def wait
     if Thread.current == Thread.main
       sleep(1.0 / 15)
     else

@@ -4,6 +4,21 @@ module Smalruby3
     module Motion
       def move(steps)
         self.position = [x + @vector[:x] * steps, y + @vector[:y] * steps]
+        position
+      end
+
+      def turn_right(degrees)
+        self.direction += degrees
+        direction
+      end
+
+      def direction=(degrees)
+        d = degrees % 360
+        if d > 180
+          d -= 360
+        end
+        @direction = d
+        sync_direction
       end
 
       def x=(val)
@@ -76,10 +91,6 @@ module Smalruby3
         elsif tb
           turn_y
         end
-      end
-
-      def rotate(angle)
-        self.angle += angle
       end
 
       def rotation_style=(val)
