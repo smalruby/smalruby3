@@ -1,13 +1,13 @@
-require 'spec_helper'
+require "spec_helper"
 
 describe Smalruby3::World do
-  describe '.instance' do
-    subject { described_class.instance }
+  describe ".instance" do
+    it {
+      expect(described_class.instance).to be_kind_of(described_class)
+    }
 
-    it { should be_kind_of(described_class) }
-
-    it '何度呼び出しても同じインスタンスを返す' do
-      should be(described_class.instance)
+    it "return same instance" do
+      expect(described_class.instance).to eq(described_class.instance)
     end
   end
 end

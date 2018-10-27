@@ -1,13 +1,13 @@
-require 'smalruby3/version'
-require 'English'
-require 'pathname'
+require_relative "smalruby3/version"
+require "English"
+require "pathname"
 
-require 'smalruby3/dxruby'
-require 'smalruby3/util'
-require 'smalruby3/world'
-require 'smalruby3/color'
-require 'smalruby3/sprite'
-require 'smalruby3/event_handler'
+require_relative "smalruby3/dxruby"
+require_relative "smalruby3/util"
+require_relative "smalruby3/color"
+require_relative "smalruby3/exceptions"
+require_relative "smalruby3/world"
+require_relative "smalruby3/sprite"
 
 module Smalruby3
   module_function
@@ -38,6 +38,10 @@ module Smalruby3
     end
   end
 
+  def sprite(name)
+    world.sprite(name)
+  end
+
   private
 
   @started = false
@@ -55,7 +59,7 @@ module Smalruby3
       # HACK: DXRubyのためのサウンド関係の初期化処理。こうしておかな
       # いとDirectSoundの初期化でエラーが発生する
       begin
-        DXRuby::Sound.new('')
+        DXRuby::Sound.new("")
       rescue
       end
 
@@ -64,32 +68,32 @@ module Smalruby3
 
     def activate_window
       if Util.windows?
-        require 'Win32API'
+        require "Win32API"
 
         # http://f.orzando.net/pukiwiki-plus/index.php?Programming%2FTips
         # を参考にした
         hwnd_active =
-          Win32API.new('user32', 'GetForegroundWindow', nil, 'i').call
+          Win32API.new("user32", "GetForegroundWindow", nil, "i").call
         this_thread_id =
-          Win32API.new('Kernel32', 'GetCurrentThreadId', nil, 'i').call
+          Win32API.new("Kernel32", "GetCurrentThreadId", nil, "i").call
         active_thread_id =
-          Win32API.new('user32', 'GetWindowThreadProcessId', %w(i p), 'i')
+          Win32API.new("user32", "GetWindowThreadProcessId", %w(i p), "i")
           .call(hwnd_active, 0)
         attach_thread_input =
           begin
-            Win32API.new('user32', 'AttachThreadInput', %w(i i i), 'v')
+            Win32API.new("user32", "AttachThreadInput", %w(i i i), "v")
           rescue
-            Win32API.new('user32', 'AttachThreadInput', %w(i i i), 'i')
+            Win32API.new("user32", "AttachThreadInput", %w(i i i), "i")
           end
         attach_thread_input.call(this_thread_id, active_thread_id, 1)
-        Win32API.new('user32', 'BringWindowToTop', %w(i), 'i')
+        Win32API.new("user32", "BringWindowToTop", %w(i), "i")
           .call(DXRuby::Window.hWnd)
         attach_thread_input.call(this_thread_id, active_thread_id, 0)
 
         hwnd_topmost = -1
         swp_nosize = 0x0001
         swp_nomove = 0x0002
-        Win32API.new('user32', 'SetWindowPos', %w(i i i i i i i), 'i')
+        Win32API.new("user32", "SetWindowPos", %w(i i i i i i i), "i")
           .call(DXRuby::Window.hWnd, hwnd_topmost, 0, 0, 0, 0, swp_nosize | swp_nomove)
       end
     end
@@ -100,15 +104,15 @@ module Smalruby3
       first = true
       DXRuby::Window.loop do
         lock do
-          if DXRuby::Input.key_down?(K_ESCAPE)
+          if DXRuby::Input.key_down?(DXRuby::K_ESCAPE)
             exit
           end
 
           if first
-            unless world.objects.any? { |o| o.is_a?(Stage) }
-              Stage.new(color: 'white') unless Util.raspberrypi?
+            if !world.targets.any? { |o| o.is_a?(Stage) }
+              Stage.new("Stage1")
             end
-            world.objects.each do |object|
+            world.targets.each do |object|
               object.start
             end
             first = false
@@ -120,12 +124,14 @@ module Smalruby3
 
           hit
 
-          world.objects.delete_if do |o|
-            o.join unless o.alive?
-            o.vanished?
+          world.sprites.delete_if do |o|
+            if !o.alive?
+              o.join
+              o.vanished?
+            end
           end
 
-          DXRuby::Sprite.draw(world.objects)
+          DXRuby::Sprite.draw(world.targets)
         end
       end
     end
@@ -138,10 +144,10 @@ module Smalruby3
     end
 
     def mouse_down_and_push
-      clickable_objects = world.objects.select { |o| o.respond_to?(:click) }
+      clickable_objects = world.targets.select { |o| o.respond_to?(:click) }
       if clickable_objects.length > 0 &&
-          (DXRuby::Input.mouse_push?(M_LBUTTON) || DXRuby::Input.mouse_push?(M_RBUTTON) ||
-          DXRuby::Input.mouse_push?(M_MBUTTON))
+          (DXRuby::Input.mouse_push?(DXRuby::M_LBUTTON) || DXRuby::Input.mouse_push?(DXRuby::M_RBUTTON) ||
+          DXRuby::Input.mouse_push?(DXRuby::M_MBUTTON))
         buttons = []
         {
           left: M_LBUTTON,
@@ -162,14 +168,14 @@ module Smalruby3
 
     def key_down_and_push
       if (keys = DXRuby::Input.keys).length > 0
-        world.objects.each do |o|
+        world.targets.each do |o|
           if o.respond_to?(:key_down)
             o.key_down(keys)
           end
         end
         pushed_keys = keys.select { |key| DXRuby::Input.key_push?(key) }
         if pushed_keys.length > 0
-          world.objects.each do |o|
+          world.targets.each do |o|
             if o.respond_to?(:key_push)
               o.key_push(pushed_keys)
             end
@@ -179,7 +185,7 @@ module Smalruby3
     end
 
     def hit
-      world.objects.each do |o|
+      world.targets.each do |o|
         if o.respond_to?(:hit)
           o.hit
         end
@@ -190,7 +196,7 @@ end
 
 include Smalruby3
 
-if Util.windows? || ENV['SMALRUBY3_WINDOWED']
+if Util.windows? || ENV["SMALRUBY3_WINDOWED"]
   DXRuby::Window.windowed = true
 else
   DXRuby::Window.windowed = false
