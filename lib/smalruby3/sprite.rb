@@ -1,23 +1,16 @@
-# -*- coding: utf-8 -*-
 require 'forwardable'
 require 'mutex_m'
 
-module Smalruby
+module Smalruby3
   # キャラクターを表現するクラス
-  class Character < Sprite
+  class Sprite < DXRuby::Sprite
     extend Forwardable
 
-    cattr_accessor :font_cache
-    self.font_cache = {}
-    font_cache.extend(Mutex_m)
+    @@font_cache = {}
+    @@font_cache.extend(Mutex_m)
 
-    cattr_accessor :sound_cache
-    self.sound_cache = {}
-    sound_cache.extend(Mutex_m)
-
-    cattr_accessor :hardware_cache
-    self.hardware_cache = {}
-    hardware_cache.extend(Mutex_m)
+    @@sound_cache = {}
+    @@sound_cache.extend(Mutex_m)
 
     attr_accessor :event_handlers
     attr_accessor :threads
@@ -42,12 +35,12 @@ module Smalruby
       opt = process_optional_arguments(option, defaults)
 
       @costume_name__index = {}
-      @costumes = Array.wrap(opt[:costume]).compact.map.with_index { |costume, i|
+      @costumes = Array(opt[:costume]).compact.map.with_index { |costume, i|
         if costume.is_a?(String)
           md = /^(?:([^:]+):)?(.*)$/.match(costume)
           name = md[1]
           path = md[2]
-          costume = Image.load(asset_path(path))
+          costume = DXRuby::Image.load(asset_path(path))
         end
         name ||= "costume#{i + 1}"
         @costume_name__index[name] = i
@@ -107,8 +100,8 @@ module Smalruby
 
       if val < 0
         val = 0
-      elsif val + image.width >= Window.width
-        val = Window.width - image.width
+      elsif val + image.width >= DXRuby::Window.width
+        val = DXRuby::Window.width - image.width
       end
 
       super(val)
@@ -123,8 +116,8 @@ module Smalruby
 
       if val < 0
         val = 0
-      elsif val + image.height >= Window.height
-        val = Window.height - image.height
+      elsif val + image.height >= DXRuby::Window.height
+        val = DXRuby::Window.height - image.height
       end
       super(val)
 
@@ -278,8 +271,10 @@ module Smalruby
       height = lines.length * (font.size + 1)
       frame_size = 3
       margin_size = 3
-      image = Image.new(width + (frame_size + margin_size) * 2,
-                        height + (frame_size + margin_size) * 2)
+      image = DXRuby::Image.new(
+        width + (frame_size + margin_size) * 2,
+        height + (frame_size + margin_size) * 2
+      )
       image.box_fill(0,
                      0,
                      width + (frame_size + margin_size) * 2 - 1,
@@ -295,7 +290,7 @@ module Smalruby
                         frame_size + margin_size + (font.size + 1) * row,
                         line, font, [0, 0, 0])
       end
-      @balloon = Sprite.new(x, y, image)
+      @balloon = DXRuby::Sprite.new(x, y, image)
     end
 
     # 表示する/隠す
@@ -350,12 +345,12 @@ module Smalruby
 
     # 左右の端に着いた?
     def reach_left_or_right_wall?
-      x <= 0 || x >= (Window.width - image.width)
+      x <= 0 || x >= (DXRuby::Window.width - image.width)
     end
 
     # 上下の端に着いた?
     def reach_top_or_bottom_wall?
-      y <= 0 || y >= (Window.height - image.height)
+      y <= 0 || y >= (DXRuby::Window.height - image.height)
     end
 
     def hit?(other)
@@ -379,8 +374,8 @@ module Smalruby
     end
 
     def stop_all_sounds
-      self.class.sound_cache.synchronize do
-        self.class.sound_cache.each_value do |sound|
+      @@sound_cache.synchronize do
+        @@sound_cache.each_value do |sound|
           sound.stop
         end
       end
@@ -625,17 +620,17 @@ module Smalruby
     end
 
     def new_font(size)
-      self.class.font_cache.synchronize do
-        self.class.font_cache[size] ||= Font.new(size)
+      @@font_cache.synchronize do
+        @@font_cache[size] ||= DXRuby::Font.new(size)
       end
-      self.class.font_cache[size]
+      @@font_cache[size]
     end
 
     def new_sound(name)
-      self.class.sound_cache.synchronize do
-        self.class.sound_cache[name] ||= Sound.new(asset_path(name))
+      @@sound_cache.synchronize do
+        @@sound_cache[name] ||= DXRuby::Sound.new(asset_path(name))
       end
-      self.class.sound_cache[name]
+      @@sound_cache[name]
     end
 
     def draw_balloon
@@ -643,14 +638,14 @@ module Smalruby
         @balloon.x = x + image.width / 2
         if @balloon.x < 0
           @balloon.x = 0
-        elsif @balloon.x + @balloon.image.width >= Window.width
-          @balloon.x = Window.width - @balloon.image.width
+        elsif @balloon.x + @balloon.image.width >= DXRuby::Window.width
+          @balloon.x = DXRuby::Window.width - @balloon.image.width
         end
         @balloon.y = y - @balloon.image.height
         if @balloon.y < 0
           @balloon.y = 0
-        elsif @balloon.y + @balloon.image.height >= Window.height
-          @balloon.y = Window.height - @balloon.image.height
+        elsif @balloon.y + @balloon.image.height >= DXRuby::Window.height
+          @balloon.y = DXRuby::Window.height - @balloon.image.height
         end
         @balloon.draw
       end

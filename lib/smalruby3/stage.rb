@@ -1,6 +1,4 @@
-# -*- coding: utf-8 -*-
-
-module Smalruby
+module Smalruby3
   # ステージを表現するクラス
   class Stage < Canvas
     def initialize(options = {})

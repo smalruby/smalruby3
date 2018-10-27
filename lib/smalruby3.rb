@@ -1,38 +1,21 @@
-# -*- coding: utf-8 -*-
 require 'smalruby3/version'
-require 'active_support/all'
-require 'dxruby'
 require 'English'
 require 'pathname'
 
+require 'smalruby3/dxruby'
 require 'smalruby3/util'
 require 'smalruby3/world'
 require 'smalruby3/color'
-require 'smalruby3/character'
+require 'smalruby3/sprite'
 require 'smalruby3/event_handler'
 
 module Smalruby3
-  extend ActiveSupport::Autoload
-
-  autoload :Console
-  autoload :Canvas
-  autoload :Stage
-  autoload :Hardware
-
   module_function
 
   def start
     @started = true
     begin
-      if world.objects.any? { |o| /console/i !~ o.class.name }
-        begin
-          start_window_application
-        ensure
-          Hardware.stop
-        end
-      else
-        start_console_application
-      end
+      start_window_application
     rescue SystemExit
     end
   end
@@ -55,10 +38,6 @@ module Smalruby3
     end
   end
 
-  def init_hardware(options = {})
-    Hardware.init(options)
-  end
-
   private
 
   @started = false
@@ -69,14 +48,14 @@ module Smalruby3
     private
 
     def init_window_application
-      Window.caption = File.basename($PROGRAM_NAME)
-      Window.fps = 15
-      Window.bgcolor = [255, 255, 255]
+      DXRuby::Window.caption = File.basename($PROGRAM_NAME)
+      DXRuby::Window.fps = 15
+      DXRuby::Window.bgcolor = [255, 255, 255]
 
       # HACK: DXRubyのためのサウンド関係の初期化処理。こうしておかな
       # いとDirectSoundの初期化でエラーが発生する
       begin
-        Sound.new('')
+        DXRuby::Sound.new('')
       rescue
       end
 
@@ -104,14 +83,14 @@ module Smalruby3
           end
         attach_thread_input.call(this_thread_id, active_thread_id, 1)
         Win32API.new('user32', 'BringWindowToTop', %w(i), 'i')
-          .call(Window.hWnd)
+          .call(DXRuby::Window.hWnd)
         attach_thread_input.call(this_thread_id, active_thread_id, 0)
 
         hwnd_topmost = -1
         swp_nosize = 0x0001
         swp_nomove = 0x0002
         Win32API.new('user32', 'SetWindowPos', %w(i i i i i i i), 'i')
-          .call(Window.hWnd, hwnd_topmost, 0, 0, 0, 0, swp_nosize | swp_nomove)
+          .call(DXRuby::Window.hWnd, hwnd_topmost, 0, 0, 0, 0, swp_nosize | swp_nomove)
       end
     end
 
@@ -119,20 +98,15 @@ module Smalruby3
       init_window_application
 
       first = true
-      Window.loop do
+      DXRuby::Window.loop do
         lock do
-          if Input.key_down?(K_ESCAPE)
+          if DXRuby::Input.key_down?(K_ESCAPE)
             exit
           end
 
           if first
             unless world.objects.any? { |o| o.is_a?(Stage) }
               Stage.new(color: 'white') unless Util.raspberrypi?
-            end
-            if Hardware.failed?
-              canvas = Canvas.new(height: 32)
-              canvas.draw_font(string: 'ハードウェアの準備に失敗しました',
-                               color: 'red')
             end
             world.objects.each do |object|
               object.start
@@ -151,16 +125,9 @@ module Smalruby3
             o.vanished?
           end
 
-          Sprite.draw(world.objects)
+          DXRuby::Sprite.draw(world.objects)
         end
       end
-    end
-
-    def start_console_application
-      world.objects.each do |object|
-        object.start
-      end
-      world.objects.each(&:join)
     end
 
     def lock
@@ -173,19 +140,19 @@ module Smalruby3
     def mouse_down_and_push
       clickable_objects = world.objects.select { |o| o.respond_to?(:click) }
       if clickable_objects.length > 0 &&
-          (Input.mouse_push?(M_LBUTTON) || Input.mouse_push?(M_RBUTTON) ||
-           Input.mouse_push?(M_MBUTTON))
+          (DXRuby::Input.mouse_push?(M_LBUTTON) || DXRuby::Input.mouse_push?(M_RBUTTON) ||
+          DXRuby::Input.mouse_push?(M_MBUTTON))
         buttons = []
         {
           left: M_LBUTTON,
           right: M_RBUTTON,
           center: M_MBUTTON
         }.each do |sym, const|
-          if Input.mouse_down?(const)
+          if DXRuby::Input.mouse_down?(const)
             buttons << sym
           end
         end
-        s = Sprite.new(Input.mouse_pos_x, Input.mouse_pos_y)
+        s = DXRuby::Sprite.new(DXRuby::Input.mouse_pos_x, DXRuby::Input.mouse_pos_y)
         s.collision = [0, 0, 1, 1]
         s.check(clickable_objects).each do |o|
           o.click(buttons)
@@ -194,13 +161,13 @@ module Smalruby3
     end
 
     def key_down_and_push
-      if (keys = Input.keys).length > 0
+      if (keys = DXRuby::Input.keys).length > 0
         world.objects.each do |o|
           if o.respond_to?(:key_down)
             o.key_down(keys)
           end
         end
-        pushed_keys = keys.select { |key| Input.key_push?(key) }
+        pushed_keys = keys.select { |key| DXRuby::Input.key_push?(key) }
         if pushed_keys.length > 0
           world.objects.each do |o|
             if o.respond_to?(:key_push)
@@ -224,9 +191,9 @@ end
 include Smalruby3
 
 if Util.windows? || ENV['SMALRUBY3_WINDOWED']
-  Window.windowed = true
+  DXRuby::Window.windowed = true
 else
-  Window.windowed = false
+  DXRuby::Window.windowed = false
 end
 
 at_exit do

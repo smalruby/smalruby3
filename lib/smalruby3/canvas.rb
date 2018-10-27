@@ -1,8 +1,5 @@
-# -*- coding: utf-8 -*-
-
-module Smalruby
-  # お絵かきを表現するクラス
-  class Canvas < Character
+module Smalruby3
+  class Canvas < Smalruby3::Sprite
     def initialize(options = {})
       defaults = {
         x: 0,
@@ -18,8 +15,6 @@ module Smalruby
 
       fill(color: opts[:color]) if opts[:color]
     end
-
-    # @!group ペン
 
     def draw_font(option)
       defaults = {
@@ -77,8 +72,6 @@ module Smalruby
     end
 
     def_delegators :image, :clear
-
-    # @!endgroup
 
     private
 

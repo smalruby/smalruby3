@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-module Smalruby
+module Smalruby3
   # イベントハンドラを表現するクラス
   class EventHandler
     attr_accessor :object

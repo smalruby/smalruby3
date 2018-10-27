@@ -1,6 +1,4 @@
-# -*- coding: utf-8 -*-
-
-module Smalruby
+module Smalruby3
   # 色を表現するモジュール
   module Color
     # 名前から色のコードへの変換テーブル

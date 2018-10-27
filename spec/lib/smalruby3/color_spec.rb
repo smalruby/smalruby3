@@ -1,7 +1,6 @@
-# -*- coding: utf-8 -*-
 require 'spec_helper'
 
-describe Smalruby::Color do
+describe Smalruby3::Color do
   describe '.smalruby_to_dxruby' do
     subject { described_class.smalruby_to_dxruby(color_name) }
 

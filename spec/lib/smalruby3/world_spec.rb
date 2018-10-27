@@ -1,7 +1,6 @@
-# -*- coding: utf-8 -*-
 require 'spec_helper'
 
-describe Smalruby::World do
+describe Smalruby3::World do
   describe '.instance' do
     subject { described_class.instance }
 

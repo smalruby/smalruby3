@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-module Smalruby
+module Smalruby3
   module Util
     module_function
 
