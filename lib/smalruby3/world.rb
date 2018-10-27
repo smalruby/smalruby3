@@ -33,7 +33,7 @@ module Smalruby3
     end
 
     def targets
-      [@stage, *@sprites]
+      [@stage, *@sprites].compact
     end
 
     def reset
@@ -43,6 +43,7 @@ module Smalruby3
     private
 
     def clear_sprites
+      @stage = nil
       @sprites = []
       @name_to_sprite = {}
     end
