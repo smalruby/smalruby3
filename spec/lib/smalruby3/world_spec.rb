@@ -11,40 +11,64 @@ describe Smalruby3::World do
     end
   end
 
-  describe "#add_sprite, #sprite, #delete_sprite" do
+  describe "#add_target, #sprite, #delete_target" do
     it "add sprite, reference sprite, delete sprite" do
       world = World.instance
-      sprite = double("Sprite", name: "Sprite1")
+      sprite = double("Sprite", name: "Sprite1", is_stage: false)
 
-      world.add_sprite(sprite)
+      world.add_target(sprite)
 
       expect(world.sprite("Sprite1")).to eq(sprite)
 
-      world.delete_sprite(sprite)
+      world.delete_target(sprite)
 
       expect(world.sprite("Sprite1")).to be_nil
     end
 
-    it "error same sprite if add sprite twice" do
+    it "error existing sprite if add sprite twice" do
       world = World.instance
-      sprite = double("Sprite", name: "Sprite1")
+      sprite = double("Sprite", name: "Sprite1", is_stage: false)
 
-      world.add_sprite(sprite)
+      world.add_target(sprite)
 
       expect {
-        world.add_sprite(sprite)
+        world.add_target(sprite)
       }.to raise_error(ExistSprite)
+    end
+
+    it "add stage, reference stage, delete target" do
+      world = World.instance
+      stage = double("Stage", name: "Stage", is_stage: true)
+
+      world.add_target(stage)
+
+      expect(world.stage).to eq(stage)
+
+      world.delete_target(stage)
+
+      expect(world.stage).to be_nil
+    end
+
+    it "error existing stage if add stage twice" do
+      world = World.instance
+      stage = double("Stage", name: "Stage", is_stage: true)
+
+      world.add_target(stage)
+
+      expect {
+        world.add_target(stage)
+      }.to raise_error(ExistStage)
     end
   end
 
   describe "#targets" do
     it "return stage and sprites array" do
       world = World.instance
-      stage = double("Stage", name: "Stage")
-      sprite = double("Sprite", name: "Sprite1")
+      stage = double("Stage", name: "Stage", is_stage: true)
+      sprite = double("Sprite", name: "Sprite1", is_stage: false)
 
-      world.stage = stage
-      world.add_sprite(sprite)
+      world.add_target(stage)
+      world.add_target(sprite)
 
       expect(world.targets).to eq([stage, sprite])
     end
@@ -57,6 +81,7 @@ describe Smalruby3::World do
       world.reset
 
       expect(world.stage).to be_nil
+      expect(world.sprites).to be_empty
       expect(world.targets).to be_empty
     end
   end

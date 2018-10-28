@@ -9,9 +9,8 @@ describe Smalruby3::SpriteMethod::Events do
       sprite1.when(:flag_clicked) do
         flag = true
       end
-
       sprite1.fire(:flag_clicked)
-      sprite1.join_threads
+      sprite1.join_threads(true)
       expect(flag).to be_truthy
     end
   end

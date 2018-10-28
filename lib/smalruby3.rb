@@ -9,6 +9,7 @@ require_relative "smalruby3/color"
 require_relative "smalruby3/exceptions"
 require_relative "smalruby3/world"
 require_relative "smalruby3/sprite"
+require_relative "smalruby3/stage"
 
 module Smalruby3
   class StopAll < Exception
@@ -31,11 +32,11 @@ module Smalruby3
   end
 
   def started?
-    return @started
+    @started
   end
 
   def world
-    return World.instance
+    World.instance
   end
 
   def wait
@@ -119,29 +120,20 @@ module Smalruby3
           end
 
           if first
-            if !world.targets.any? { |o| o.is_a?(Stage) }
-              Stage.new("Stage1")
-            end
-            world.targets.each do |object|
-              object.start
+            world.targets.each do |o|
+              o.fire(:flag_clicked)
             end
             first = false
           end
 
-          mouse_down_and_push
+          # mouse_down_and_push
+          # key_down_and_push
+          # hit
 
-          key_down_and_push
-
-          hit
-
-          world.sprites.delete_if do |o|
-            if !o.alive?
-              o.join
-              o.vanished?
-            end
+          world.targets.each do |o|
+            o.draw
+            o.join_threads
           end
-
-          DXRuby::Sprite.draw(world.targets)
         end
       end
     end
@@ -213,5 +205,7 @@ else
 end
 
 at_exit do
-  Smalruby3.start if !$ERROR_INFO && !Smalruby3.started?
+  if !$ERROR_INFO && !Smalruby3.started?
+    Smalruby3.start
+  end
 end

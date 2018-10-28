@@ -18,7 +18,7 @@ require_relative "sprite_method/pen"
 
 module Smalruby3
   # Sprite class
-  class Sprite < DXRuby::Sprite
+  class Sprite
     extend Forwardable
 
     ROTATION_STYLE = {
@@ -40,13 +40,14 @@ module Smalruby3
     attr_accessor :visible
     attr_accessor :size
     attr_accessor :current_costume
-    attr_accessor :costumes
+    attr_reader :costumes
     attr_accessor :rotation_style
     attr_accessor :variables
     attr_accessor :lists
 
     attr_accessor :event_handlers
     attr_accessor :threads
+    attr_accessor :is_stage
 
     attr_accessor :checking_hit_targets
     attr_reader :enable_pen
@@ -58,6 +59,11 @@ module Smalruby3
       @vector = { x: 1, y: 0 }
       @event_handlers = {}
       @threads = []
+      @name_to_costume = {}
+      @costumes = []
+      @is_stage = false
+
+      @dxruby_sprite = DXRuby::Sprite.new(0, 0)
 
       defaults = {
         x: 0,
@@ -76,17 +82,36 @@ module Smalruby3
         send("#{k}=", v)
       end
 
-      world.add_sprite(self)
+      world.add_target(self)
 
       if block_given?
         instance_eval(&block)
       end
     end
 
-    def draw
-      draw_balloon if visible
+    def costumes=(assets)
+      @name_to_costume = {}
+      @costumes = assets.map { |asset|
+        costume = DXRuby::Image.load(world.asset_path(asset))
+        @name_to_costume[asset[:name]] = costume
+        costume
+      }
+      sync_costumes
+    end
 
-      super
+    def current_costume=(index)
+      if @costumes.length > 0
+        @current_costume = index % @costumes.length
+      else
+        @current_costume = 0
+      end
+      sync_costumes
+    end
+
+    def draw
+      if @visible
+        @dxruby_sprite.draw
+      end
     end
 
     def on(event, *options, &block)
@@ -151,24 +176,6 @@ module Smalruby3
       end
     end
 
-    def alive?
-      @threads.compact!
-      @threads.delete_if { |t|
-        if t.alive?
-          false
-        else
-          begin
-            t.join
-          rescue => e
-            Util.print_exception(e)
-            exit(1)
-          end
-          true
-        end
-      }
-      @threads.length > 0
-    end
-
     def fire(event, *options)
       @event_handlers[event].each do |e|
         if e.options == options
@@ -177,9 +184,28 @@ module Smalruby3
       end
     end
 
-    def join_threads
+    def join_threads(wait = false)
       @threads.compact!
-      @threads.each(&:join)
+      error = false
+      @threads.delete_if { |t|
+        if t.alive?
+          false
+        else
+          begin
+            t.join
+          rescue => e
+            Util.print_exception(e)
+            error = true
+          end
+          true
+        end
+      }
+      if !error
+        exit(1)
+      end
+      if wait
+        @threads.each(&:join)
+      end
     end
 
     private
@@ -195,6 +221,10 @@ module Smalruby3
       @vector[:y] = Math.sin(radian)
     end
 
+    def sync_costumes
+      @dxruby_sprite.image = @costumes[@current_costume]
+    end
+
     def draw_pen(left, top, right, bottom)
       return if Util.raspberrypi? || !visible || vanished?
       world.current_stage.line(left: left, top: top,
@@ -206,14 +236,6 @@ module Smalruby3
       a = Math.acos(x / Math.sqrt(x**2 + y**2)) * 180 / Math::PI
       a = 360 - a if y < 0
       self.angle = a
-    end
-
-    def asset_path(name)
-      program_path = Pathname($PROGRAM_NAME).expand_path(Dir.pwd)
-      paths = [Pathname("../#{name}").expand_path(program_path),
-               Pathname("../__assets__/#{name}").expand_path(program_path),
-               Pathname("../../../assets/#{name}").expand_path(__FILE__)]
-      paths.find { |path| path.file? }.to_s
     end
 
     def new_font(size)
