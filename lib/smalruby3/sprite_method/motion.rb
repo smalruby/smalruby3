@@ -21,48 +21,45 @@ module Smalruby3
         sync_direction
       end
 
-      def x=(val)
-        left = x + center_x
-        top = y + center_y
-
-        if val < 0
-          val = 0
-        elsif val + image.width >= DXRuby::Window.width
-          val = DXRuby::Window.width - image.width
+      def x=(new_x)
+        if new_x < -240
+          new_x = -240
+        elsif new_x > 240
+          new_x = 240
         end
+        @x = new_x
 
-        super(val)
-
-        draw_pen(left, top, x + center_x, y + center_y) if @enable_pen
+        sync_position
       end
 
-      def y=(val)
-        left = x + center_x
-        top = y + center_y
-
-        if val < 0
-          val = 0
-        elsif val + image.height >= DXRuby::Window.height
-          val = DXRuby::Window.height - image.height
+      def y=(new_y)
+        if new_y < -160
+          new_y = -160
+        elsif new_y > 160
+          new_y = 160
         end
-        super(val)
+        @y = new_y
 
-        draw_pen(left, top, x + center_x, y + center_y) if @enable_pen
+        sync_position
       end
 
       def position=(val)
-        if @enable_pen
-          @enable_pen = false
-          left = x + center_x
-          top = y + center_y
-          self.x = val[0]
-          self.y = val[1]
-          draw_pen(left, top, x + center_x, y + center_y)
-          @enable_pen = true
-        else
-          self.x = val[0]
-          self.y = val[1]
+        new_x, new_y = *val
+        if new_x < -240
+          new_x = -240
+        elsif new_x > 240
+          new_x = 240
         end
+        @x = new_x
+
+        if new_y < -160
+          new_y = -160
+        elsif new_y > 160
+          new_y = 160
+        end
+        @y = new_y
+
+        sync_position
       end
 
       def position

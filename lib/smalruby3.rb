@@ -46,6 +46,10 @@ module Smalruby3
       World.instance
     end
 
+    def s2dx
+      world.s2dx
+    end
+
     def wait
       if Thread.current == Thread.main
         sleep(1.0 / 15)
@@ -60,8 +64,8 @@ module Smalruby3
 
     def init_window_application
       DXRuby::Window.caption = File.basename($PROGRAM_NAME)
-      DXRuby::Window.width = 480
-      DXRuby::Window.height = 360
+      DXRuby::Window.width = s2dx.window_width
+      DXRuby::Window.height = s2dx.window_height
       DXRuby::Window.fps = 15
       DXRuby::Window.bgcolor = [255, 255, 255]
 

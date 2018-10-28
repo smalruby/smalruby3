@@ -216,6 +216,14 @@ module Smalruby3
       Smalruby3.world
     end
 
+    def s2dx
+      world.s2dx
+    end
+
+    def sync_position
+      @dxruby_sprite.x, @dxruby_sprite.y = s2dx.position(x, y)
+    end
+
     def sync_direction
       degrees = (direction - 90) % 360
       radian = degrees * Math::PI / 180

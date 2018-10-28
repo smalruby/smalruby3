@@ -1,5 +1,6 @@
 require "singleton"
 require_relative "exceptions"
+require_relative "smalruby_to_dxruby"
 
 module Smalruby3
   # 環境を表現するクラス
@@ -8,9 +9,11 @@ module Smalruby3
 
     attr_accessor :stage
     attr_accessor :sprites
+    attr_reader :s2dx
 
     def initialize
       reset
+      @s2dx = SmalrubyToDXRuby.new
     end
 
     def add_target(stage_or_sprite)
