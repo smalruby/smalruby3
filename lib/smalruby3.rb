@@ -1,8 +1,9 @@
 require_relative "smalruby3/version"
+
 require "English"
 require "pathname"
+require "dxruby"
 
-require_relative "smalruby3/dxruby"
 require_relative "smalruby3/util"
 require_relative "smalruby3/color"
 require_relative "smalruby3/exceptions"
