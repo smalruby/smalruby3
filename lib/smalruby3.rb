@@ -21,49 +21,47 @@ module Smalruby3
   class StopOtherScripts < Exception
   end
 
-  module_function
-
-  def start
-    @started = true
-    begin
-      start_window_application
-    rescue SystemExit
-    end
-  end
-
-  def started?
-    @started
-  end
-
-  def world
-    World.instance
-  end
-
-  def wait
-    if Thread.current == Thread.main
-      sleep(1.0 / 15)
-    else
-      @draw_mutex.synchronize do
-        @draw_cv.wait(@draw_mutex)
-      end
-    end
-  end
-
-  def sprite(name)
-    world.sprite(name)
-  end
-
-  private
-
   @started = false
   @draw_mutex = Mutex.new
   @draw_cv = ConditionVariable.new
 
+  def sprite(name)
+    Smalruby3.world.sprite(name)
+  end
+
   class << self
+    def start
+      @started = true
+      begin
+        start_window_application
+      rescue SystemExit
+      end
+    end
+
+    def started?
+      @started
+    end
+
+    def world
+      World.instance
+    end
+
+    def wait
+      if Thread.current == Thread.main
+        sleep(1.0 / 15)
+      else
+        @draw_mutex.synchronize do
+          @draw_cv.wait(@draw_mutex)
+        end
+      end
+    end
+
     private
 
     def init_window_application
       DXRuby::Window.caption = File.basename($PROGRAM_NAME)
+      DXRuby::Window.width = 480
+      DXRuby::Window.height = 360
       DXRuby::Window.fps = 15
       DXRuby::Window.bgcolor = [255, 255, 255]
 
@@ -197,12 +195,6 @@ module Smalruby3
 end
 
 include Smalruby3
-
-if Util.windows? || ENV["SMALRUBY3_WINDOWED"]
-  DXRuby::Window.windowed = true
-else
-  DXRuby::Window.windowed = false
-end
 
 at_exit do
   if !$ERROR_INFO && !Smalruby3.started?

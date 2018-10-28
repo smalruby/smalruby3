@@ -11,7 +11,7 @@ module Smalruby3
       def forever(&block)
         loop do
           block.call
-          wait
+          Smalruby3.wait
         end
       end
 

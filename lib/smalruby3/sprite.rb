@@ -177,9 +177,11 @@ module Smalruby3
     end
 
     def fire(event, *options)
-      @event_handlers[event].each do |e|
-        if e.options == options
-          @threads << e.call
+      if (events = @event_handlers[event])
+        events.each do |e|
+          if e.options == options
+            @threads << e.call
+          end
         end
       end
     end
@@ -200,7 +202,7 @@ module Smalruby3
           true
         end
       }
-      if !error
+      if error
         exit(1)
       end
       if wait
@@ -211,7 +213,7 @@ module Smalruby3
     private
 
     def world
-      World.instance
+      Smalruby3.world
     end
 
     def sync_direction
