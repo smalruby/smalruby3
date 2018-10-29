@@ -34,8 +34,8 @@ module Smalruby3
     @@sound_cache.extend(Mutex_m)
 
     attr_accessor :name
-    attr_accessor :x
-    attr_accessor :y
+    attr_reader :x
+    attr_reader :y
     attr_reader :direction
     attr_accessor :visible
     attr_accessor :size
@@ -56,11 +56,14 @@ module Smalruby3
 
     def initialize(name, options = {}, &block)
       @name = name
+      @x = 0
+      @y = 0
+      @costumes = []
+
       @vector = { x: 1, y: 0 }
       @event_handlers = {}
       @threads = []
       @name_to_costume = {}
-      @costumes = []
       @is_stage = false
 
       @dxruby_sprite = DXRuby::Sprite.new(0, 0)
@@ -234,7 +237,7 @@ module Smalruby3
 
       radian = angle * Math::PI / 180
       @vector[:x] = Math.cos(radian)
-      @vector[:y] = Math.sin(radian)
+      @vector[:y] = -Math.sin(radian)
 
       case @rotation_style
       when ROTATION_STYLE[:all_around]
