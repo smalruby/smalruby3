@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "spec_helper"
 
 describe Smalruby3::SpriteMethod::Control do
   include_context "sprite1"
