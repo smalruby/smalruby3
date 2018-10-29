@@ -2,18 +2,20 @@ require_relative "util"
 
 module Smalruby3
   class SmalrubyToDXRuby
-    SCREEN_TOP = 160
-    SCREEN_BOTTOM = -160
+    SCREEN_TOP = 180
+    SCREEN_BOTTOM = -180
     SCREEN_LEFT = -240
     SCREEN_RIGHT = 240
 
-    attr_accessor :window_width
-    attr_accessor :window_height
+    attr_reader :window_width
+    attr_reader :window_height
+    attr_accessor :fps
 
     def initialize(options = {})
       defaults = {
-        window_width: 480 * 2,
-        window_height: 320 * 2,
+        window_width: screen_width * 2,
+        window_height: screen_height * 2,
+        fps: 10,
       }
       opts = Util.process_options(options, defaults)
       opts.each do |k, v|
@@ -21,16 +23,34 @@ module Smalruby3
       end
     end
 
+    def window_width=(val)
+      @window_width = val
+      @window_width_ratio = val.to_f / screen_width
+    end
+
+    def window_height=(val)
+      @window_height = val
+      @window_height_ratio = val.to_f / screen_height
+    end
+
     def x(pos_x)
-      ((pos_x - SCREEN_LEFT) * window_width.to_f / (SCREEN_RIGHT - SCREEN_LEFT)).ceil
+      ((pos_x - SCREEN_LEFT) * @window_width_ratio).ceil
     end
 
     def y(pos_y)
-      ((-pos_y - SCREEN_BOTTOM) * window_height.to_f / (SCREEN_TOP - SCREEN_BOTTOM)).ceil
+      ((-pos_y - SCREEN_BOTTOM) * @window_height_ratio).ceil
     end
 
     def position(pos_x, pos_y)
-      [self.x(pos_x), self.y(pos_y)]
+      [x(pos_x), y(pos_y)]
+    end
+
+    def screen_width
+      SCREEN_RIGHT - SCREEN_LEFT
+    end
+
+    def screen_height
+      SCREEN_TOP - SCREEN_BOTTOM
     end
   end
 end

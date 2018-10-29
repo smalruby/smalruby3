@@ -66,7 +66,7 @@ module Smalruby3
       DXRuby::Window.caption = File.basename($PROGRAM_NAME)
       DXRuby::Window.width = s2dx.window_width
       DXRuby::Window.height = s2dx.window_height
-      DXRuby::Window.fps = 15
+      DXRuby::Window.fps = s2dx.fps
       DXRuby::Window.bgcolor = [255, 255, 255]
 
       # HACK: DXRubyのためのサウンド関係の初期化処理。こうしておかな
