@@ -43,4 +43,14 @@ describe Smalruby3::SpriteMethod::Control do
       }.to raise_error(ArgumentError, "invalid option: #{option}")
     end
   end
+
+  describe "#wait" do
+    it "can call" do
+      allow(Smalruby3).to receive(:wait)
+
+      sprite1.wait
+
+      expect(Smalruby3).to have_received(:wait)
+    end
+  end
 end

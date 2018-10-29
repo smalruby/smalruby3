@@ -27,6 +27,10 @@ module Smalruby3
           raise ArgumentError.new("invalid option: #{option}")
         end
       end
+
+      def wait
+        Smalruby3.wait
+      end
     end
   end
 end
