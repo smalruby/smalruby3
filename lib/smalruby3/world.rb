@@ -3,7 +3,6 @@ require_relative "exceptions"
 require_relative "smalruby_to_dxruby"
 
 module Smalruby3
-  # 環境を表現するクラス
   class World
     include Singleton
 

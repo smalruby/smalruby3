@@ -1,8 +1,5 @@
 module Smalruby3
-  class Exception < StandardError
-  end
-
-  class ExistStage < Exception
+  class ExistStage < RuntimeError
     attr_accessor :stage
 
     def initialize(stage)
@@ -11,7 +8,7 @@ module Smalruby3
     end
   end
 
-  class ExistSprite < Exception
+  class ExistSprite < RuntimeError
     attr_accessor :sprite
 
     def initialize(sprite)

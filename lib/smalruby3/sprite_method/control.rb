@@ -8,9 +8,9 @@ module Smalruby3
         other_scripts: "other scripts in sprite"
       }
 
-      def forever(&block)
+      def forever(&_block)
         loop do
-          block.call
+          yield
           Smalruby3.wait
         end
       end

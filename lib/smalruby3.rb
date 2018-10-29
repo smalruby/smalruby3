@@ -11,13 +11,13 @@ require_relative "smalruby3/sprite"
 require_relative "smalruby3/stage"
 
 module Smalruby3
-  class StopAll < Exception
+  class StopAll < RuntimeError
   end
 
-  class StopThisScript < Exception
+  class StopThisScript < RuntimeError
   end
 
-  class StopOtherScripts < Exception
+  class StopOtherScripts < RuntimeError
   end
 
   @started = false
@@ -68,8 +68,7 @@ module Smalruby3
       DXRuby::Window.fps = s2dx.fps
       DXRuby::Window.bgcolor = [255, 255, 255]
 
-      # HACK: DXRubyのためのサウンド関係の初期化処理。こうしておかな
-      # いとDirectSoundの初期化でエラーが発生する
+      # HACK: for DXRuby. occur error if didn't initialize DirectSound.
       begin
         DXRuby::Sound.new("")
       rescue
@@ -82,15 +81,13 @@ module Smalruby3
       if Util.windows?
         require "Win32API"
 
-        # http://f.orzando.net/pukiwiki-plus/index.php?Programming%2FTips
-        # を参考にした
+        # see http://f.orzando.net/pukiwiki-plus/index.php?Programming%2FTips
         hwnd_active =
           Win32API.new("user32", "GetForegroundWindow", nil, "i").call
         this_thread_id =
           Win32API.new("Kernel32", "GetCurrentThreadId", nil, "i").call
         active_thread_id =
-          Win32API.new("user32", "GetWindowThreadProcessId", %w(i p), "i")
-          .call(hwnd_active, 0)
+          Win32API.new("user32", "GetWindowThreadProcessId", %w(i p), "i").call(hwnd_active, 0)
         attach_thread_input =
           begin
             Win32API.new("user32", "AttachThreadInput", %w(i i i), "v")
@@ -98,15 +95,14 @@ module Smalruby3
             Win32API.new("user32", "AttachThreadInput", %w(i i i), "i")
           end
         attach_thread_input.call(this_thread_id, active_thread_id, 1)
-        Win32API.new("user32", "BringWindowToTop", %w(i), "i")
-          .call(DXRuby::Window.hWnd)
+        Win32API.new("user32", "BringWindowToTop", %w(i), "i").call(DXRuby::Window.hWnd)
         attach_thread_input.call(this_thread_id, active_thread_id, 0)
 
         hwnd_topmost = -1
         swp_nosize = 0x0001
         swp_nomove = 0x0002
-        Win32API.new("user32", "SetWindowPos", %w(i i i i i i i), "i")
-          .call(DXRuby::Window.hWnd, hwnd_topmost, 0, 0, 0, 0, swp_nosize | swp_nomove)
+        Win32API.new("user32", "SetWindowPos", %w(i i i i i i i), "i").
+          call(DXRuby::Window.hWnd, hwnd_topmost, 0, 0, 0, 0, swp_nosize | swp_nomove)
       end
     end
 

@@ -10,6 +10,7 @@ module Smalruby3
             y <= SmalrubyToDXRuby::SCREEN_BOTTOM || y >= SmalrubyToDXRuby::SCREEN_TOP
         when "_mouse_"
           # TODO: check touching mouse
+          raise NotImplementedError, "touching?(\"#{object}\")"
         else
           if !sprite(object)
             # TODO: check touching sprite

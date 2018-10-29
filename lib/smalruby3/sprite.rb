@@ -14,7 +14,6 @@ require_relative "sprite_method/my_blocks"
 require_relative "sprite_method/pen"
 
 module Smalruby3
-  # Sprite class
   class Sprite
     ROTATION_STYLE = {
       all_around: "all around",
@@ -28,7 +27,7 @@ module Smalruby3
     attr_reader :direction
     attr_accessor :visible
     attr_accessor :size
-    attr_accessor :current_costume
+    attr_reader :current_costume
     attr_reader :costumes
     attr_reader :rotation_style
     attr_accessor :variables

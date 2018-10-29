@@ -1,23 +1,23 @@
-require 'bundler/gem_helper'
-require 'yard'
+require "bundler/gem_helper"
+require "yard"
 require "rspec/core/rake_task"
 
 YARD::Rake::YardocTask.new do |t|
-  t.files   = ['lib/**/*.rb']
+  t.files   = ["lib/**/*.rb"]
   t.options = []
 end
 
 if /darwin/ =~ RUBY_PLATFORM
   task :spec do
-    sh "rsdl -S rspec #{ENV['SPEC_OPTS']} #{ENV['SPEC']}"
+    sh "rsdl -S rspec #{ENV["SPEC_OPTS"]} #{ENV["SPEC"]}"
   end
 
   task :guard do
-    rspec_path = 'spec/rspec'
-    File.open(rspec_path, 'w') do |f|
-      f.write(<<-EOS)
-#!/bin/sh
-bundle exec rsdl -S rspec $@
+    rspec_path = "spec/rspec"
+    File.open(rspec_path, "w") do |f|
+      f.write(<<~EOS)
+        #!/bin/sh
+        bundle exec rsdl -S rspec $@
       EOS
     end
     chmod(0755, rspec_path)
@@ -35,8 +35,8 @@ else
 end
 
 task :rubocop do
-  files = `git ls-files | grep -e '.rb$' | grep -v '^samples/'`
-  sh "rubocop #{files.split(/\s+/m).join(' ')}"
+  files = `git ls-files | grep -e ".rb$" | grep -v "^samples/"`
+  sh "rubocop #{files.split(/\s+/m).join(" ")}"
 end
 
 namespace :gem do
@@ -44,43 +44,45 @@ namespace :gem do
 end
 
 task :build do
-  ENV['GEM_PLATFORM'] = 'linux'
-  Rake::Task['gem:build'].invoke
+  ENV["GEM_PLATFORM"] = "linux"
+  Rake::Task["gem:build"].invoke
 
-  require 'smalruby3/version'
+  require "smalruby3/version"
   Bundler.with_clean_env do
-    ENV['GEM_PLATFORM'] = 'x86-mingw32'
-    dest = "smalruby3-#{Smalruby3::VERSION}-#{ENV['GEM_PLATFORM']}.gem"
+    ENV["GEM_PLATFORM"] = "x86-mingw32"
+    dest = "smalruby3-#{Smalruby3::VERSION}-#{ENV["GEM_PLATFORM"]}.gem"
     sh "gem build smalruby3.gemspec && mv #{dest} pkg/"
   end
 end
 
 task :release do
-  ENV['GEM_PLATFORM'] = 'linux'
-  Rake::Task['gem:release'].invoke
+  ENV["GEM_PLATFORM"] = "linux"
+  Rake::Task["gem:release"].invoke
 
-  require 'smalruby3/version'
+  require "smalruby3/version"
   Bundler.with_clean_env do
-    ENV['GEM_PLATFORM'] = 'x86-mingw32'
-    dest = "smalruby3-#{Smalruby3::VERSION}-#{ENV['GEM_PLATFORM']}.gem"
+    ENV["GEM_PLATFORM"] = "x86-mingw32"
+    dest = "smalruby3-#{Smalruby3::VERSION}-#{ENV["GEM_PLATFORM"]}.gem"
     sh "gem build smalruby3.gemspec && mv #{dest} pkg/ && gem push pkg/#{dest}"
   end
 
-  next_version = Smalruby3::VERSION.split('.').tap { |versions|
+  next_version = Smalruby3::VERSION.split(".").tap { |versions|
     versions[-1] = (versions[-1].to_i + 1).to_s
-  }.join('.')
-  File.open('lib/smalruby3/version.rb', 'r+') do |f|
+  }.join(".")
+  File.open("lib/smalruby3/version.rb", "r+") do |f|
     lines = []
-    while line = f.gets
-      line = "#{$1}'#{next_version}'\n" if /(\s*VERSION =\s*)/.match(line)
+    while (line = f.gets)
+      if /(\s*VERSION =\s*)/.match(line)
+        line = "#{$1}\"#{next_version}\"\n"
+      end
       lines << line
     end
     f.rewind
     f.write(lines.join)
   end
-  sh 'git add lib/smalruby3/version.rb'
+  sh "git add lib/smalruby3/version.rb"
   sh "git commit -m #{next_version}"
-  sh 'git push'
+  sh "git push"
 end
 
 task :default => [:rubocop, :spec]

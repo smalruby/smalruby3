@@ -4,7 +4,8 @@ describe Smalruby3::Sprite do
   describe ".new" do
     it "receiver is the created sprite in block" do
       self_in_block = nil
-      s = Sprite.new("Sprite1",
+      s = Sprite.new(
+        "Sprite1",
         costumes: [
           {
             asset_id: "01ae57fd339529445cb890978ef8a054",
@@ -15,7 +16,8 @@ describe Smalruby3::Sprite do
             rotation_center_x: 47,
             rotation_center_y: 55
           }
-        ]) do
+        ]
+      ) do
         self_in_block = self
       end
       expect(s).to eq(self_in_block)

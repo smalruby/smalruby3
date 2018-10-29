@@ -22,7 +22,8 @@ end
 
 RSpec.shared_context "sprite1" do
   let(:sprite1) {
-    Sprite.new("Sprite1",
+    Sprite.new(
+      "Sprite1",
       costumes: [
         {
           asset_id: "01ae57fd339529445cb890978ef8a054",
