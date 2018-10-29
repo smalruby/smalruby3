@@ -1,12 +1,15 @@
 source 'https://rubygems.org'
 
-# Specify your gem's dependencies in smalruby.gemspec
 gemspec
 
-if File.exist?(File.expand_path('~/work/smalruby/dxruby_sdl/'))
-  gem 'dxruby_sdl', path: '~/work/smalruby/dxruby_sdl/'
+work_dir = ENV['SMALRUBY_WORK_DIR'] || '~/work/smalruby'
+
+path = File.expand_path(File.join(work_dir, 'dxruby_sdl'))
+if File.exist?(path)
+  gem 'dxruby_sdl', path: path
 end
 
-if File.exist?(File.expand_path('~/work/smalruby/smalrubot/'))
-  gem 'smalrubot', path: '~/work/smalruby/smalrubot/'
+path = File.expand_path(File.join(work_dir, 'smalrubot'))
+if File.exist?(path)
+  gem 'smalrubot', path: path
 end

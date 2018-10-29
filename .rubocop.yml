@@ -1,158 +1,125 @@
-AllCops:
-  Exclude:
-    - tmp/**/*
-    - vendor/**/*
-    - work/**/*
-    - samples/**/*
+Layout/EmptyLineAfterGuardClause:
+  Enabled: false
 
-# Configuration parameters: AllowSafeAssignment.
-Lint/AssignmentInCondition:
+Style/StringLiteralsInInterpolation:
+  Enabled: false
+
+Performance/RegexpMatch:
   Enabled: false
 
 Lint/HandleExceptions:
   Enabled: false
 
-Lint/RescueException:
-  Enabled: false
-
-# Cop supports --auto-correct.
-Lint/UnusedMethodArgument:
-  Enabled: false
+Layout/DotPosition:
+  EnforcedStyle: "trailing"
 
 Metrics/AbcSize:
-  Max: 58
+  Max: 25
 
-# Configuration parameters: CountComments.
+Metrics/BlockLength:
+  Max: 100
+
 Metrics/ClassLength:
-  Max: 1000
+  Max: 250
 
 Metrics/CyclomaticComplexity:
   Max: 10
 
-# Configuration parameters: AllowURI, URISchemes.
-Metrics/LineLength:
-  Max: 162
-
-# Configuration parameters: CountComments.
 Metrics/MethodLength:
-  Max: 100
+  Max: 50
 
-# Configuration parameters: CountComments.
 Metrics/ModuleLength:
-  Max: 500
+  Max: 250
 
-Metrics/PerceivedComplexity:
-  Max: 15
-
-Style/ParallelAssignment:
+Naming/HeredocDelimiterNaming:
   Enabled: false
 
-Style/AccessorMethodName:
-  Enabled: false
-
-Style/AsciiComments:
-  Enabled: false
-
-# Configuration parameters: EnforcedStyle, SupportedStyles, ProceduralMethods, FunctionalMethods, IgnoredMethods.
-Style/BlockDelimiters:
+Performance/RedundantMatch:
   Enabled: false
 
 Style/Documentation:
   Enabled: false
 
-# Configuration parameters: MinBodyLength.
-Style/GuardClause:
+Style/BlockDelimiters:
   Enabled: false
 
-# Configuration parameters: EnforcedStyle, SupportedStyles, UseHashRocketsWithSymbolValues.
-Style/HashSyntax:
+Style/FrozenStringLiteralComment:
   Enabled: false
 
-# Configuration parameters: MaxLineLength.
 Style/IfUnlessModifier:
   Enabled: false
 
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-Style/MultilineOperationIndentation:
+Style/NegatedIf:
   Enabled: false
 
-# Configuration parameters: PreferredDelimiters.
+Style/GuardClause:
+  Enabled: false
+
+Style/MutableConstant:
+  Enabled: false
+
+Style/NumericPredicate:
+  Enabled: false
+
 Style/PercentLiteralDelimiters:
   Enabled: false
 
 Style/PerlBackrefs:
   Enabled: false
 
-# Configuration parameters: AllowMultipleReturnValues.
+Style/RaiseArgs:
+  Enabled: false
+
 Style/RedundantReturn:
   Enabled: false
 
-Style/SpecialGlobalVars:
+Style/RescueStandardError:
   Enabled: false
 
-# Configuration parameters: EnforcedStyle, SupportedStyles.
+Style/StderrPuts:
+  Enabled: false
+
 Style/StringLiterals:
   Enabled: false
 
-# Configuration parameters: IgnoredMethods.
-Style/SymbolProc:
+Style/SymbolArray:
+  EnforcedStyle: brackets
+
+Style/TrailingCommaInArrayLiteral:
   Enabled: false
 
-Style/TrailingCommaInLiteral:
-  Enabled: false
-
-Style/TrailingCommaInArguments:
-  Enabled: false
-
-Style/UnneededPercentQ:
-  Enabled: false
-
-Style/NegatedIf:
-  Enabled: false
-
-Performance/RedundantMatch:
-  Enabled: false
-
-Style/ExtraSpacing:
-  Exclude:
-    - 'smalruby.gemspec'
-
-Style/SpaceAroundOperators:
-  Exclude:
-    - 'smalruby.gemspec'
-
-Style/MutableConstant:
-  Enabled: false
-
-Style/ConditionalAssignment:
+Style/TrailingCommaInHashLiteral:
   Enabled: false
 
 Style/ZeroLengthPredicate:
   Enabled: false
 
-Style/SignalException:
-  Enabled: false
+Security/Open:
+  Exclude:
+    - "tools/get_assets.rb"
 
-Style/MultilineMethodCallIndentation:
-  Enabled: false
+Metrics/LineLength:
+  Max: 120
+  Exclude:
+    - "smalruby3.gemspec"
 
-Style/Alias:
-  Enabled: false
+Layout/ExtraSpacing:
+  Exclude:
+    - "smalruby3.gemspec"
 
-Lint/UselessAccessModifier:
-  Enabled: false
+Layout/SpaceAroundOperators:
+  Exclude:
+    - "smalruby3.gemspec"
 
-Style/SpaceInsideStringInterpolation:
-  Enabled: false
+Style/UnneededPercentQ:
+  Exclude:
+    - "smalruby3.gemspec"
 
-Style/NumericPredicate:
-  Enabled: false
+Style/SpecialGlobalVars:
+  Exclude:
+    - "smalruby3.gemspec"
 
-Style/EmptyMethod:
-  Enabled: false
-
-Style/MethodMissing:
-  Enabled: false
-
-Metrics/BlockLength:
-  Max: 35
+Style/ExpandPathArguments:
+  Exclude:
+    - "smalruby3.gemspec"
+    - "spec/spec_helper.rb"

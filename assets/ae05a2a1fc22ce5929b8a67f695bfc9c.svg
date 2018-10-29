@@ -1,0 +1,25 @@
+<svg version="1.1" width="59" height="58" viewBox="-1 -1 59 58" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <!-- Exported by Scratch - http://scratch.mit.edu/ -->
+  <path id="Oval" fill="#FAF0E6" stroke="none" stroke-width="1" d="M 28 0 C 35.725 0 42.725 3.138 47.794 8.206 C 52.862 13.275 56 20.275 56 28 C 56 35.725 52.862 42.725 47.794 47.794 C 42.725 52.862 35.725 56 28 56 C 20.275 56 13.275 52.862 8.206 47.794 C 3.138 42.725 0 35.725 0 28 C 0 20.275 3.138 13.275 8.206 8.206 C 13.275 3.138 20.275 0 28 0 Z "/>
+  <path id="Shape" fill="#F0E6D2" stroke="none" stroke-width="1" d="M 57 27.577 C 57 21.361 54.889 15.622 51.397 11 C 48.230 13.311 41.652 19.209 38.322 29.808 C 38.322 29.808 34.343 41.683 40.190 53 C 50.179 48.617 57 38.894 57 27.577 Z "/>
+  <g id="Group">
+    <path id="Shape" fill="#F01446" stroke="none" stroke-width="1" d="M 12.109 4.880 L 12.845 0.560 L 13.582 0.720 L 13.091 4.160 L 16.691 4.320 L 16.691 5.120 L 12.109 4.880 " transform="matrix(1, 0, 0, 1, 34, 10)"/>
+    <path id="Shape" fill="#F01446" stroke="none" stroke-width="1" d="M 8.264 10.080 L 8.018 5.680 L 8.836 5.600 L 9.082 9.120 L 12.682 8.480 L 12.764 9.280 L 8.264 10.080 " transform="matrix(1, 0, 0, 1, 34, 10)"/>
+    <path id="Shape" fill="#F01446" stroke="none" stroke-width="1" d="M 5.727 15.680 L 4.336 11.520 L 5.155 11.280 L 6.218 14.560 L 9.491 13.360 L 9.736 14.080 L 5.727 15.680 " transform="matrix(1, 0, 0, 1, 34, 10)"/>
+    <path id="Shape" fill="#F01446" stroke="none" stroke-width="1" d="M 2.945 27.840 L 0.327 24.400 L 0.982 23.920 L 3.027 26.720 L 5.727 24.480 L 6.300 25.120 L 2.945 27.840 " transform="matrix(1, 0, 0, 1, 34, 10)"/>
+    <path id="Shape" fill="#F01446" stroke="none" stroke-width="1" d="M 3.109 34.640 L 0 31.520 L 0.655 30.960 L 3.027 33.440 L 5.400 30.960 L 6.055 31.520 L 3.109 34.640 " transform="matrix(1, 0, 0, 1, 34, 10)"/>
+    <path id="Shape" fill="#F01446" stroke="none" stroke-width="1" d="M 4.745 40.640 L 1.145 38.160 L 1.555 37.520 L 4.500 39.440 L 6.300 36.480 L 7.036 36.880 L 4.745 40.640 " transform="matrix(1, 0, 0, 1, 34, 10)"/>
+    <path id="Shape" fill="#F01446" stroke="none" stroke-width="1" d="M 3.927 21.440 L 2.127 17.520 L 2.864 17.200 L 4.336 20.320 L 7.445 18.720 L 7.773 19.440 L 3.927 21.440 " transform="matrix(1, 0, 0, 1, 34, 10)"/>
+    <path id="Shape" fill="#F01446" stroke="none" stroke-width="1" d="M 17.264 0.640 C 13.582 2.800 10.555 5.840 8.427 9.440 C 2.618 18.880 0.082 33.040 5.809 43.280 C 6.055 43.200 6.382 43.040 6.627 42.960 C 2.291 35.040 1.800 21.920 9.164 9.920 C 11.291 6.320 14.236 3.440 17.836 1.360 C 17.591 1.040 17.427 0.880 17.264 0.640 Z " transform="matrix(1, 0, 0, 1, 34, 10)"/>
+  </g>
+  <g id="Group">
+    <path id="Shape" fill="#F01446" stroke="none" stroke-width="1" d="M 6.183 39.280 L 5.478 43.680 L 4.696 43.520 L 5.243 40.080 L 1.722 39.920 L 1.800 39.120 L 6.183 39.280 " transform="matrix(1, 0, 0, 1, 6, 2)"/>
+    <path id="Shape" fill="#F01446" stroke="none" stroke-width="1" d="M 9.861 34.160 L 10.096 38.560 L 9.313 38.560 L 9.078 35.120 L 5.635 35.760 L 5.478 34.960 L 9.861 34.160 " transform="matrix(1, 0, 0, 1, 6, 2)"/>
+    <path id="Shape" fill="#F01446" stroke="none" stroke-width="1" d="M 12.287 28.560 L 13.617 32.640 L 12.835 32.880 L 11.817 29.600 L 8.687 30.880 L 8.374 30.160 L 12.287 28.560 " transform="matrix(1, 0, 0, 1, 6, 2)"/>
+    <path id="Shape" fill="#F01446" stroke="none" stroke-width="1" d="M 14.948 16.400 L 17.452 19.840 L 16.826 20.320 L 14.870 17.520 L 12.287 19.760 L 11.817 19.120 L 14.948 16.400 " transform="matrix(1, 0, 0, 1, 6, 2)"/>
+    <path id="Shape" fill="#F01446" stroke="none" stroke-width="1" d="M 14.870 9.600 L 17.765 12.720 L 17.217 13.280 L 14.870 10.720 L 12.600 13.280 L 11.974 12.720 L 14.870 9.600 " transform="matrix(1, 0, 0, 1, 6, 2)"/>
+    <path id="Shape" fill="#F01446" stroke="none" stroke-width="1" d="M 13.226 3.600 L 16.748 6.080 L 16.278 6.720 L 13.461 4.800 L 11.739 7.680 L 11.113 7.280 L 13.226 3.600 " transform="matrix(1, 0, 0, 1, 6, 2)"/>
+    <path id="Shape" fill="#F01446" stroke="none" stroke-width="1" d="M 14.009 22.800 L 15.730 26.720 L 15.026 27.040 L 13.617 23.840 L 10.643 25.520 L 10.330 24.800 L 14.009 22.800 " transform="matrix(1, 0, 0, 1, 6, 2)"/>
+    <path id="Shape" fill="#F01446" stroke="none" stroke-width="1" d="M 9 34.320 C 6.965 38 3.913 41.040 0.313 43.120 C 0.470 43.360 0.626 43.600 0.783 43.760 C 4.461 41.600 7.513 38.480 9.626 34.720 C 15.261 25.200 17.687 10.720 11.974 0.480 C 11.739 0.560 11.426 0.720 11.191 0.800 C 15.652 8.720 16.278 22.160 9 34.320 Z " transform="matrix(1, 0, 0, 1, 6, 2)"/>
+  </g>
+</svg>
