@@ -41,7 +41,7 @@ module Smalruby3
     attr_accessor :size
     attr_accessor :current_costume
     attr_reader :costumes
-    attr_accessor :rotation_style
+    attr_reader :rotation_style
     attr_accessor :variables
     attr_accessor :lists
 
@@ -106,6 +106,11 @@ module Smalruby3
         @current_costume = 0
       end
       sync_costumes
+    end
+
+    def rotation_style=(val)
+      @rotation_style = val
+      sync_direction
     end
 
     def draw
@@ -225,10 +230,27 @@ module Smalruby3
     end
 
     def sync_direction
-      degrees = (direction - 90) % 360
-      radian = degrees * Math::PI / 180
+      angle = s2dx.angle(direction)
+
+      radian = angle * Math::PI / 180
       @vector[:x] = Math.cos(radian)
       @vector[:y] = Math.sin(radian)
+
+      case @rotation_style
+      when ROTATION_STYLE[:all_around]
+        @dxruby_sprite.scale_x = 1
+        @dxruby_sprite.angle = angle
+      when ROTATION_STYLE[:left_right]
+        if @vector[:x] >= 0
+          @dxruby_sprite.scale_x = 1
+        else
+          @dxruby_sprite.scale_x = -1
+        end
+        @dxruby_sprite.angle = 0
+      when ROTATION_STYLE[:none]
+        @dxruby_sprite.scale_x = 1
+        @dxruby_sprite.angle = 0
+      end
     end
 
     def sync_costumes

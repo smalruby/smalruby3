@@ -52,5 +52,9 @@ module Smalruby3
     def screen_height
       SCREEN_TOP - SCREEN_BOTTOM
     end
+
+    def angle(direction)
+      (direction - 90) % 360
+    end
   end
 end
