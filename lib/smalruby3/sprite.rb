@@ -1,6 +1,3 @@
-require "forwardable"
-require "mutex_m"
-
 require_relative "util"
 require_relative "world"
 require_relative "event_handler"
@@ -19,19 +16,11 @@ require_relative "sprite_method/pen"
 module Smalruby3
   # Sprite class
   class Sprite
-    extend Forwardable
-
     ROTATION_STYLE = {
       all_around: "all around",
       left_right: "left-right",
       none: "don't rotate",
     }
-
-    @@font_cache = {}
-    @@font_cache.extend(Mutex_m)
-
-    @@sound_cache = {}
-    @@sound_cache.extend(Mutex_m)
 
     attr_accessor :name
     attr_reader :x
@@ -92,6 +81,10 @@ module Smalruby3
       end
     end
 
+    def position
+      [x, y]
+    end
+
     def costumes=(assets)
       @name_to_costume = {}
       @costumes = assets.map { |asset|
@@ -119,68 +112,6 @@ module Smalruby3
     def draw
       if @visible
         @dxruby_sprite.draw
-      end
-    end
-
-    def on(event, *options, &block)
-      event = event.to_sym
-      @event_handlers[event] ||= []
-      h = EventHandler.new(self, options, &block)
-      @event_handlers[event] << h
-
-      case event
-      when :start
-        @threads << h.call if Smalruby.started?
-      when :hit
-        @checking_hit_targets << options
-        @checking_hit_targets.flatten!
-        @checking_hit_targets.uniq!
-      end
-    end
-
-    def start
-      @event_handlers[:start].try(:each) do |h|
-        @threads << h.call
-      end
-    end
-
-    def key_down(keys)
-      @event_handlers[:key_down].try(:each) do |h|
-        if h.options.length > 0 && !h.options.any? { |k| keys.include?(k) }
-          next
-        end
-        @threads << h.call
-      end
-    end
-
-    def key_push(keys)
-      @event_handlers[:key_push].try(:each) do |h|
-        if h.options.length > 0 && !h.options.any? { |k| keys.include?(k) }
-          next
-        end
-        @threads << h.call
-      end
-    end
-
-    def click(buttons)
-      @event_handlers[:click].try(:each) do |h|
-        if h.options.length > 0 && !h.options.any? { |b| buttons.include?(b) }
-          next
-        end
-        @threads << h.call(Input.mouse_pos_x, Input.mouse_pos_y)
-      end
-    end
-
-    def hit
-      # TODO: なんでもいいからキャラクターに当たった場合に対応する
-      @checking_hit_targets &= World.instance.objects
-      objects = check(@checking_hit_targets)
-      return if objects.empty?
-      @event_handlers[:hit].try(:each) do |h|
-        if h.options.length > 0 && !h.options.any? { |o| objects.include?(o) }
-          next
-        end
-        @threads << h.call(h.options & objects)
       end
     end
 
@@ -258,55 +189,6 @@ module Smalruby3
 
     def sync_costumes
       @dxruby_sprite.image = @costumes[@current_costume]
-    end
-
-    def draw_pen(left, top, right, bottom)
-      return if Util.raspberrypi? || !visible || vanished?
-      world.current_stage.line(left: left, top: top,
-                               right: right, bottom: bottom,
-                               color: @pen_color)
-    end
-
-    def sync_angle(x, y)
-      a = Math.acos(x / Math.sqrt(x**2 + y**2)) * 180 / Math::PI
-      a = 360 - a if y < 0
-      self.angle = a
-    end
-
-    def new_font(size)
-      @@font_cache.synchronize do
-        @@font_cache[size] ||= DXRuby::Font.new(size)
-      end
-      @@font_cache[size]
-    end
-
-    def new_sound(name)
-      @@sound_cache.synchronize do
-        @@sound_cache[name] ||= DXRuby::Sound.new(asset_path(name))
-      end
-      @@sound_cache[name]
-    end
-
-    def draw_balloon
-      if @balloon
-        @balloon.x = x + image.width / 2
-        if @balloon.x < 0
-          @balloon.x = 0
-        elsif @balloon.x + @balloon.image.width >= DXRuby::Window.width
-          @balloon.x = DXRuby::Window.width - @balloon.image.width
-        end
-        @balloon.y = y - @balloon.image.height
-        if @balloon.y < 0
-          @balloon.y = 0
-        elsif @balloon.y + @balloon.image.height >= DXRuby::Window.height
-          @balloon.y = DXRuby::Window.height - @balloon.image.height
-        end
-        @balloon.draw
-      end
-    end
-
-    def calc_volume
-      (255 * @volume / 100.0).to_i
     end
 
     include SpriteMethod::Motion

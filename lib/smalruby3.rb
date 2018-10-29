@@ -5,7 +5,6 @@ require "pathname"
 require "dxruby"
 
 require_relative "smalruby3/util"
-require_relative "smalruby3/color"
 require_relative "smalruby3/exceptions"
 require_relative "smalruby3/world"
 require_relative "smalruby3/sprite"
@@ -128,10 +127,6 @@ module Smalruby3
             first = false
           end
 
-          # mouse_down_and_push
-          # key_down_and_push
-          # hit
-
           world.targets.each do |o|
             o.draw
             o.join_threads
@@ -144,55 +139,6 @@ module Smalruby3
       @draw_mutex.synchronize do
         yield
         @draw_cv.broadcast
-      end
-    end
-
-    def mouse_down_and_push
-      clickable_objects = world.targets.select { |o| o.respond_to?(:click) }
-      if clickable_objects.length > 0 &&
-          (DXRuby::Input.mouse_push?(DXRuby::M_LBUTTON) || DXRuby::Input.mouse_push?(DXRuby::M_RBUTTON) ||
-          DXRuby::Input.mouse_push?(DXRuby::M_MBUTTON))
-        buttons = []
-        {
-          left: M_LBUTTON,
-          right: M_RBUTTON,
-          center: M_MBUTTON
-        }.each do |sym, const|
-          if DXRuby::Input.mouse_down?(const)
-            buttons << sym
-          end
-        end
-        s = DXRuby::Sprite.new(DXRuby::Input.mouse_pos_x, DXRuby::Input.mouse_pos_y)
-        s.collision = [0, 0, 1, 1]
-        s.check(clickable_objects).each do |o|
-          o.click(buttons)
-        end
-      end
-    end
-
-    def key_down_and_push
-      if (keys = DXRuby::Input.keys).length > 0
-        world.targets.each do |o|
-          if o.respond_to?(:key_down)
-            o.key_down(keys)
-          end
-        end
-        pushed_keys = keys.select { |key| DXRuby::Input.key_push?(key) }
-        if pushed_keys.length > 0
-          world.targets.each do |o|
-            if o.respond_to?(:key_push)
-              o.key_push(pushed_keys)
-            end
-          end
-        end
-      end
-    end
-
-    def hit
-      world.targets.each do |o|
-        if o.respond_to?(:hit)
-          o.hit
-        end
       end
     end
   end
