@@ -20,7 +20,7 @@ if /darwin/ =~ RUBY_PLATFORM
         bundle exec rsdl -S rspec $@
       EOS
     end
-    chmod(0755, rspec_path)
+    chmod(0o755, rspec_path)
     begin
       sh "bundle exec guard"
     ensure
@@ -85,4 +85,4 @@ task :release do
   sh "git push"
 end
 
-task :default => [:rubocop, :spec]
+task default: [:rubocop, :spec]

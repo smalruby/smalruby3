@@ -95,11 +95,11 @@ module Smalruby3
     end
 
     def current_costume=(index)
-      if @costumes.length > 0
-        @current_costume = index % @costumes.length
-      else
-        @current_costume = 0
-      end
+      @current_costume = if @costumes.length > 0
+                           index % @costumes.length
+                         else
+                           0
+                         end
       sync_costumes
     end
 
@@ -174,11 +174,11 @@ module Smalruby3
         @dxruby_sprite.scale_x = 1
         @dxruby_sprite.angle = angle
       when ROTATION_STYLE[:left_right]
-        if @vector[:x] >= 0
-          @dxruby_sprite.scale_x = 1
-        else
-          @dxruby_sprite.scale_x = -1
-        end
+        @dxruby_sprite.scale_x = if @vector[:x] >= 0
+                                   1
+                                 else
+                                   -1
+                                 end
         @dxruby_sprite.angle = 0
       when ROTATION_STYLE[:none]
         @dxruby_sprite.scale_x = 1

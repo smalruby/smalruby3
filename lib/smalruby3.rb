@@ -78,32 +78,34 @@ module Smalruby3
     end
 
     def activate_window
-      if Util.windows?
-        require "Win32API"
-
-        # see http://f.orzando.net/pukiwiki-plus/index.php?Programming%2FTips
-        hwnd_active =
-          Win32API.new("user32", "GetForegroundWindow", nil, "i").call
-        this_thread_id =
-          Win32API.new("Kernel32", "GetCurrentThreadId", nil, "i").call
-        active_thread_id =
-          Win32API.new("user32", "GetWindowThreadProcessId", %w(i p), "i").call(hwnd_active, 0)
-        attach_thread_input =
-          begin
-            Win32API.new("user32", "AttachThreadInput", %w(i i i), "v")
-          rescue
-            Win32API.new("user32", "AttachThreadInput", %w(i i i), "i")
-          end
-        attach_thread_input.call(this_thread_id, active_thread_id, 1)
-        Win32API.new("user32", "BringWindowToTop", %w(i), "i").call(DXRuby::Window.hWnd)
-        attach_thread_input.call(this_thread_id, active_thread_id, 0)
-
-        hwnd_topmost = -1
-        swp_nosize = 0x0001
-        swp_nomove = 0x0002
-        Win32API.new("user32", "SetWindowPos", %w(i i i i i i i), "i").
-          call(DXRuby::Window.hWnd, hwnd_topmost, 0, 0, 0, 0, swp_nosize | swp_nomove)
+      if !Util.windows?
+        return
       end
+
+      require "Win32API"
+
+      # see http://f.orzando.net/pukiwiki-plus/index.php?Programming%2FTips
+      hwnd_active =
+        Win32API.new("user32", "GetForegroundWindow", nil, "i").call
+      this_thread_id =
+        Win32API.new("Kernel32", "GetCurrentThreadId", nil, "i").call
+      active_thread_id =
+        Win32API.new("user32", "GetWindowThreadProcessId", %w(i p), "i").call(hwnd_active, 0)
+      attach_thread_input =
+        begin
+          Win32API.new("user32", "AttachThreadInput", %w(i i i), "v")
+        rescue
+          Win32API.new("user32", "AttachThreadInput", %w(i i i), "i")
+        end
+      attach_thread_input.call(this_thread_id, active_thread_id, 1)
+      Win32API.new("user32", "BringWindowToTop", %w(i), "i").call(DXRuby::Window.hWnd)
+      attach_thread_input.call(this_thread_id, active_thread_id, 0)
+
+      hwnd_topmost = -1
+      swp_nosize = 0x0001
+      swp_nomove = 0x0002
+      Win32API.new("user32", "SetWindowPos", %w(i i i i i i i), "i").
+        call(DXRuby::Window.hWnd, hwnd_topmost, 0, 0, 0, 0, swp_nosize | swp_nomove)
     end
 
     def start_window_application
@@ -140,7 +142,7 @@ module Smalruby3
   end
 end
 
-include Smalruby3
+include Smalruby3 # rubocop:disable Style/MixinUsage
 
 at_exit do
   if !$ERROR_INFO && !Smalruby3.started?

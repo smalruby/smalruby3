@@ -69,9 +69,7 @@ module Smalruby3
         Pathname("../__assets__/#{md5}").expand_path(program_path),
         Pathname("../../../assets/#{md5}").expand_path(__FILE__),
       ]
-      paths.find { |path|
-        path.file?
-      }.to_s
+      paths.find(&:file?).to_s
     end
 
     private

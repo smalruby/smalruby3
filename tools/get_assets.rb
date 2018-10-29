@@ -14,7 +14,7 @@ end
 log = Logger.new(STDOUT)
 log.level = Logger::INFO
 
-force = !!ARGV.shift
+force = !ARGV.shift.nil?
 log.info("force: #{force}")
 
 assets_path = File.expand_path("../assets", __dir__)

@@ -1,19 +1,11 @@
 Layout/EmptyLineAfterGuardClause:
   Enabled: false
 
-Layout/ExtraSpacing:
-  Exclude:
-    - "smalruby3.gemspec"
-
 Style/StringLiteralsInInterpolation:
   Enabled: false
 
 Performance/RegexpMatch:
   Enabled: false
-
-Layout/SpaceAroundOperators:
-  Exclude:
-    - "smalruby3.gemspec"
 
 Lint/HandleExceptions:
   Enabled: false
@@ -45,229 +37,89 @@ Naming/HeredocDelimiterNaming:
 Performance/RedundantMatch:
   Enabled: false
 
-Security/Open:
-  Exclude:
-    - "tools/get_assets.rb"
-
 Style/Documentation:
   Enabled: false
 
-# Configuration parameters: EnforcedStyle, ProceduralMethods, FunctionalMethods, IgnoredMethods.
-# SupportedStyles: line_count_based, semantic, braces_for_chaining
-# ProceduralMethods: benchmark, bm, bmbm, create, each_with_object, measure, new, realtime, tap, with_object
-# FunctionalMethods: let, let!, subject, watch
-# IgnoredMethods: lambda, proc, it
 Style/BlockDelimiters:
-  Exclude:
-    - "Rakefile"
-    - "lib/smalruby3/event_handler.rb"
-    - "lib/smalruby3/sprite.rb"
-    - "lib/smalruby3/world.rb"
-    - "spec/lib/smalruby3/sprite_method/control_spec.rb"
-    - "spec/lib/smalruby3/world_spec.rb"
-    - "spec/spec_helper.rb"
+  Enabled: false
 
-# Offense count: 2
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SingleLineConditionsOnly, IncludeTernaryExpressions.
-# SupportedStyles: assign_to_condition, assign_inside_condition
-Style/ConditionalAssignment:
-  Exclude:
-    - "lib/smalruby3/sprite.rb"
-
-# Offense count: 1
-Style/DoubleNegation:
-  Exclude:
-    - "tools/get_assets.rb"
-
-# Offense count: 3
-# Cop supports --auto-correct.
-Style/ExpandPathArguments:
-  Exclude:
-    - "smalruby3.gemspec"
-    - "spec/spec_helper.rb"
-
-# Offense count: 33
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: when_needed, always, never
 Style/FrozenStringLiteralComment:
   Enabled: false
 
-# Offense count: 5
-# Configuration parameters: MinBodyLength.
-Style/GuardClause:
-  Exclude:
-    - "lib/smalruby3.rb"
-    - "lib/smalruby3/sprite.rb"
-
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, UseHashRocketsWithSymbolValues, PreferHashRocketsForNonAlnumEndingSymbols.
-# SupportedStyles: ruby19, hash_rockets, no_mixed_keys, ruby19_no_mixed_keys
-Style/HashSyntax:
-  Exclude:
-    - "Rakefile"
-
-# Offense count: 16
-# Cop supports --auto-correct.
 Style/IfUnlessModifier:
   Enabled: false
 
-# Offense count: 1
-Style/MixinUsage:
-  Exclude:
-    - "lib/smalruby3.rb"
-
-# Offense count: 3
-# Cop supports --auto-correct.
-Style/MutableConstant:
-  Exclude:
-    - "lib/smalruby3/sprite.rb"
-    - "lib/smalruby3/sprite_method/control.rb"
-    - "lib/smalruby3/version.rb"
-
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: both, prefix, postfix
 Style/NegatedIf:
-  Exclude:
-    - "lib/smalruby3/sprite_method/sensing.rb"
+  Enabled: false
 
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedOctalStyle.
-# SupportedOctalStyles: zero_with_o, zero_only
-Style/NumericLiteralPrefix:
-  Exclude:
-    - "Rakefile"
+Style/GuardClause:
+  Enabled: false
 
-# Offense count: 2
-# Cop supports --auto-correct.
-# Configuration parameters: AutoCorrect, EnforcedStyle, IgnoredMethods.
-# SupportedStyles: predicate, comparison
+Style/MutableConstant:
+  Enabled: false
+
 Style/NumericPredicate:
-  Exclude:
-    - "spec/**/*"
-    - "lib/smalruby3/sprite.rb"
-    - "lib/smalruby3/util.rb"
+  Enabled: false
 
-# Offense count: 7
-# Cop supports --auto-correct.
-# Configuration parameters: PreferredDelimiters.
 Style/PercentLiteralDelimiters:
-  Exclude:
-    - "lib/smalruby3.rb"
-    - "smalruby3.gemspec"
+  Enabled: false
 
-# Offense count: 1
-# Cop supports --auto-correct.
 Style/PerlBackrefs:
-  Exclude:
-    - "Rakefile"
+  Enabled: false
 
-# Offense count: 3
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: compact, exploded
 Style/RaiseArgs:
-  Exclude:
-    - "lib/smalruby3/sprite_method/control.rb"
-    - "lib/smalruby3/world.rb"
+  Enabled: false
 
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: AllowMultipleReturnValues.
 Style/RedundantReturn:
-  Exclude:
-    - "lib/smalruby3/event_handler.rb"
+  Enabled: false
 
-# Offense count: 3
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: implicit, explicit
 Style/RescueStandardError:
-  Exclude:
-    - "lib/smalruby3.rb"
-    - "lib/smalruby3/sprite.rb"
+  Enabled: false
 
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: only_raise, only_fail, semantic
-Style/SignalException:
-  Exclude:
-    - "lib/smalruby3/util.rb"
-
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: use_perl_names, use_english_names
-Style/SpecialGlobalVars:
-  Exclude:
-    - "smalruby3.gemspec"
-
-# Offense count: 2
-# Cop supports --auto-correct.
 Style/StderrPuts:
-  Exclude:
-    - "lib/smalruby3/util.rb"
+  Enabled: false
 
-# Offense count: 188
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, ConsistentQuotesInMultiline.
-# SupportedStyles: single_quotes, double_quotes
 Style/StringLiterals:
   Enabled: false
 
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: MinSize.
-# SupportedStyles: percent, brackets
 Style/SymbolArray:
   EnforcedStyle: brackets
 
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: IgnoredMethods.
-# IgnoredMethods: respond_to, define_method
-Style/SymbolProc:
-  Exclude:
-    - "lib/smalruby3/world.rb"
-
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyleForMultiline.
-# SupportedStylesForMultiline: comma, consistent_comma, no_comma
 Style/TrailingCommaInArrayLiteral:
-  Exclude:
-    - "lib/smalruby3/world.rb"
+  Enabled: false
 
-# Offense count: 4
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyleForMultiline.
-# SupportedStylesForMultiline: comma, consistent_comma, no_comma
 Style/TrailingCommaInHashLiteral:
-  Exclude:
-    - "lib/smalruby3/smalruby_to_dxruby.rb"
-    - "lib/smalruby3/sprite.rb"
-    - "spec/lib/smalruby3/sprite_method/motion_spec.rb"
+  Enabled: false
 
-# Offense count: 2
-# Cop supports --auto-correct.
-Style/UnneededPercentQ:
-  Exclude:
-    - "smalruby3.gemspec"
-
-# Offense count: 2
-# Cop supports --auto-correct.
 Style/ZeroLengthPredicate:
+  Enabled: false
+
+Security/Open:
   Exclude:
-    - "lib/smalruby3/sprite.rb"
-    - "lib/smalruby3/util.rb"
+    - "tools/get_assets.rb"
 
 Metrics/LineLength:
   Max: 120
   Exclude:
     - "smalruby3.gemspec"
+
+Layout/ExtraSpacing:
+  Exclude:
+    - "smalruby3.gemspec"
+
+Layout/SpaceAroundOperators:
+  Exclude:
+    - "smalruby3.gemspec"
+
+Style/UnneededPercentQ:
+  Exclude:
+    - "smalruby3.gemspec"
+
+Style/SpecialGlobalVars:
+  Exclude:
+    - "smalruby3.gemspec"
+
+Style/ExpandPathArguments:
+  Exclude:
+    - "smalruby3.gemspec"
+    - "spec/spec_helper.rb"
