@@ -5,6 +5,7 @@ Stage.new("Stage",
             {
               asset_id: "9838d02002d05f88dc54d96494fbc202",
               name: "Xy-grid",
+              bitmap_resolution: 2,
               data_format: "png",
               rotation_center_x: 480,
               rotation_center_y: 360
@@ -17,6 +18,7 @@ Sprite.new("Sprite1",
              {
                asset_id: "01ae57fd339529445cb890978ef8a054",
                name: "Costume1",
+               bitmap_resolution: 1,
                data_format: "svg",
                rotation_center_x: 47,
                rotation_center_y: 55

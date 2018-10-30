@@ -56,12 +56,11 @@ module Smalruby3
       clear_sprites
     end
 
-    def asset_path(asset)
-      data_format = asset[:data_format]
+    def asset_path(asset_id, data_format)
       if data_format == "svg"
         data_format = "png"
       end
-      md5 = "#{asset[:asset_id]}.#{data_format}"
+      md5 = "#{asset_id}.#{data_format}"
 
       program_path = Pathname($PROGRAM_NAME).expand_path(Dir.pwd)
       paths = [
