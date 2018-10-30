@@ -10,6 +10,7 @@ describe Smalruby3::Stage do
           {
             asset_id: "9838d02002d05f88dc54d96494fbc202",
             name: "Xy-grid",
+            bitmap_resolution: 2,
             data_format: "png",
             rotation_center_x: 480,
             rotation_center_y: 360

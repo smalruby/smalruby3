@@ -1,6 +1,7 @@
 require_relative "util"
 require_relative "world"
 require_relative "event_handler"
+require_relative "costume"
 require_relative "sprite_method"
 require_relative "sprite_method/motion"
 require_relative "sprite_method/looks"
@@ -47,6 +48,7 @@ module Smalruby3
       @x = 0
       @y = 0
       @costumes = []
+      @current_costume = 0
 
       @vector = { x: 1, y: 0 }
       @event_handlers = {}
@@ -73,7 +75,7 @@ module Smalruby3
         send("#{k}=", v)
       end
 
-      world.add_target(self)
+      World.instance.add_target(self)
 
       if block_given?
         instance_eval(&block)
@@ -87,9 +89,9 @@ module Smalruby3
     def costumes=(assets)
       @name_to_costume = {}
       @costumes = assets.map { |asset|
-        costume = DXRuby::Image.load(world.asset_path(asset))
-        @name_to_costume[asset[:name]] = costume
-        costume
+        c = Costume.new(asset)
+        @name_to_costume[c.name] = c
+        c
       }
       sync_costumes
     end
@@ -101,6 +103,10 @@ module Smalruby3
                            0
                          end
       sync_costumes
+    end
+
+    def costume
+      @costumes[@current_costume]
     end
 
     def rotation_style=(val)
@@ -150,16 +156,18 @@ module Smalruby3
 
     private
 
-    def world
-      Smalruby3.world
-    end
-
     def s2dx
-      world.s2dx
+      World.instance.s2dx
     end
 
     def sync_position
-      @dxruby_sprite.x, @dxruby_sprite.y = s2dx.position(x, y)
+      dx_x, dx_y = *s2dx.position(x, y)
+      if (c = costume)
+        dx_x -= c.rotation_center_x
+        dx_y -= c.rotation_center_y
+      end
+      @dxruby_sprite.x = dx_x
+      @dxruby_sprite.y = dx_y
     end
 
     def sync_direction
@@ -169,25 +177,33 @@ module Smalruby3
       @vector[:x] = Math.cos(radian)
       @vector[:y] = -Math.sin(radian)
 
+      scale_x = (c = costume) ? c.width_scale : 1
       case @rotation_style
       when ROTATION_STYLE[:all_around]
-        @dxruby_sprite.scale_x = 1
+        @dxruby_sprite.scale_x = scale_x
         @dxruby_sprite.angle = angle
       when ROTATION_STYLE[:left_right]
         @dxruby_sprite.scale_x = if @vector[:x] >= 0
-                                   1
+                                   scale_x
                                  else
-                                   -1
+                                   -scale_x
                                  end
         @dxruby_sprite.angle = 0
       when ROTATION_STYLE[:none]
-        @dxruby_sprite.scale_x = 1
+        @dxruby_sprite.scale_x = scale_x
         @dxruby_sprite.angle = 0
       end
     end
 
     def sync_costumes
-      @dxruby_sprite.image = @costumes[@current_costume]
+      if (c = costume)
+        @dxruby_sprite.image = c.image
+        @dxruby_sprite.scale_x = c.width_scale
+        @dxruby_sprite.scale_y = c.height_scale
+        @dxruby_sprite.center_x = c.rotation_center_x
+        @dxruby_sprite.center_y = c.rotation_center_y
+      end
+      sync_position
     end
 
     include SpriteMethod::Motion
