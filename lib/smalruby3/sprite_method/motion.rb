@@ -12,6 +12,11 @@ module Smalruby3
         direction
       end
 
+      def turn_left(degrees)
+        self.direction -= degrees
+        direction
+      end
+
       def direction=(degrees)
         @direction = calc_direction(degrees)
 
