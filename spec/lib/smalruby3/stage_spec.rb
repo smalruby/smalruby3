@@ -21,5 +21,34 @@ describe Smalruby3::Stage do
       end
       expect(s).to eq(self_in_block)
     end
+
+    it "define global variables from variables and lists arguments" do
+      s = Stage.new(
+        "Stage",
+        variables: [
+          {
+            name: "global_variable",
+            value: "abc"
+          },
+          {
+            name: "global_variable2",
+          }
+        ],
+        lists: [
+          {
+            name: "global_list",
+            value: ["a", "b", "c"]
+          },
+          {
+            name: "global_list2"
+          }
+        ]
+      ) do
+      end
+      expect($global_variable).to eq("abc")
+      expect($global_variable2).to eq(0)
+      expect($global_list).to eq(["a", "b", "c"])
+      expect($global_list2).to eq([])
+    end
   end
 end

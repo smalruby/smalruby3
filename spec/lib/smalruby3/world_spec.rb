@@ -14,7 +14,7 @@ describe Smalruby3::World do
   describe "#add_target, #sprite, #delete_target" do
     it "add sprite, reference sprite, delete sprite" do
       world = World.instance
-      sprite = double("Sprite", name: "Sprite1", is_stage: false)
+      sprite = double("Sprite", name: "Sprite1", "stage?": false)
 
       world.add_target(sprite)
 
@@ -27,7 +27,7 @@ describe Smalruby3::World do
 
     it "error existing sprite if add sprite twice" do
       world = World.instance
-      sprite = double("Sprite", name: "Sprite1", is_stage: false)
+      sprite = double("Sprite", name: "Sprite1", "stage?": false)
 
       world.add_target(sprite)
 
@@ -38,7 +38,7 @@ describe Smalruby3::World do
 
     it "add stage, reference stage, delete target" do
       world = World.instance
-      stage = double("Stage", name: "Stage", is_stage: true)
+      stage = double("Stage", name: "Stage", "stage?": true)
 
       world.add_target(stage)
 
@@ -51,7 +51,7 @@ describe Smalruby3::World do
 
     it "error existing stage if add stage twice" do
       world = World.instance
-      stage = double("Stage", name: "Stage", is_stage: true)
+      stage = double("Stage", name: "Stage", "stage?": true)
 
       world.add_target(stage)
 
@@ -64,8 +64,8 @@ describe Smalruby3::World do
   describe "#targets" do
     it "return stage and sprites array" do
       world = World.instance
-      stage = double("Stage", name: "Stage", is_stage: true)
-      sprite = double("Sprite", name: "Sprite1", is_stage: false)
+      stage = double("Stage", name: "Stage", "stage?": true)
+      sprite = double("Sprite", name: "Sprite1", "stage?": false)
 
       world.add_target(stage)
       world.add_target(sprite)
