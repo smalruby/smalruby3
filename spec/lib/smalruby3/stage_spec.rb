@@ -23,7 +23,7 @@ describe Smalruby3::Stage do
     end
 
     it "define global variables from variables and lists arguments" do
-      s = Stage.new(
+      Stage.new(
         "Stage",
         variables: [
           {
