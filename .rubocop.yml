@@ -123,3 +123,11 @@ Style/ExpandPathArguments:
   Exclude:
     - "smalruby3.gemspec"
     - "spec/spec_helper.rb"
+
+Layout/AlignParameters:
+  Exclude:
+    - 'examples/*'
+
+Style/GlobalVars:
+  Exclude:
+    - 'examples/*'
