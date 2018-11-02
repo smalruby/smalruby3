@@ -131,3 +131,7 @@ Layout/AlignParameters:
 Style/GlobalVars:
   Exclude:
     - 'examples/*'
+    - 'spec/**/*'
+
+Style/WordArray:
+  Enabled: false

@@ -31,12 +31,11 @@ module Smalruby3
     attr_reader :current_costume
     attr_reader :costumes
     attr_reader :rotation_style
-    attr_accessor :variables
-    attr_accessor :lists
+    attr_reader :variables
+    attr_reader :lists
 
     attr_accessor :event_handlers
     attr_accessor :threads
-    attr_accessor :is_stage
 
     attr_accessor :checking_hit_targets
     attr_reader :enable_pen
@@ -54,7 +53,6 @@ module Smalruby3
       @event_handlers = {}
       @threads = []
       @name_to_costume = {}
-      @is_stage = false
 
       @dxruby_sprite = DXRuby::Sprite.new(0, 0)
 
@@ -80,6 +78,10 @@ module Smalruby3
       if block_given?
         instance_eval(&block)
       end
+    end
+
+    def stage?
+      false
     end
 
     def position
@@ -112,6 +114,18 @@ module Smalruby3
     def rotation_style=(val)
       @rotation_style = val
       sync_direction
+    end
+
+    def variables=(attrs)
+      @variables = attrs.map { |attr|
+        define_variable(attr[:name], attr.key?(:value) ? attr[:value] : 0)
+      }
+    end
+
+    def lists=(attrs)
+      @lists = attrs.map { |attr|
+        define_variable(attr[:name], attr.key?(:value) ? attr[:value] : [])
+      }
     end
 
     def draw
@@ -155,6 +169,12 @@ module Smalruby3
     end
 
     private
+
+    def define_variable(name, value)
+      name = "@#{name}"
+      instance_variable_set(name, value)
+      name
+    end
 
     def s2dx
       World.instance.s2dx

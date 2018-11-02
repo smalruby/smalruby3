@@ -16,7 +16,7 @@ module Smalruby3
     end
 
     def add_target(stage_or_sprite)
-      if stage_or_sprite.is_stage
+      if stage_or_sprite.stage?
         stage = stage_or_sprite
         if @stage
           raise ExistStage.new(stage)
@@ -34,7 +34,7 @@ module Smalruby3
     end
 
     def delete_target(stage_or_sprite)
-      if stage_or_sprite.is_stage
+      if stage_or_sprite.stage?
         @stage = nil
       else
         sprite = stage_or_sprite
