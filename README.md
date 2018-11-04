@@ -8,6 +8,7 @@ environment for kids.
 
 * Windows or UNIX like OS (MAC OS X, Linux, etc...)
 * ruby 2.5.3 or higher
+* DXRuby (for Windows): http://dxruby.osdn.jp
 * dxruby_sdl (for Mac OS X and Linux): https://github.com/smalruby/dxruby_sdl
 * rsdl (for Mac OS X): http://www.kumaryu.net/proj/ruby-rsdl/
 
