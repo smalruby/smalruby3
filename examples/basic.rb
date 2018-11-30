@@ -32,12 +32,12 @@ Sprite.new("Sprite1",
       end
     end
   end
-end
-
-self.when(:flag_clicked) do
-  forever do
-    sleep(0.5)
-      turn_left(30)
+  self.when(:flag_clicked) do
+    forever do
+      sleep(0.5)
+        turn_left(30)
+      end
     end
   end
 end
+
