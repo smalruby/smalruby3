@@ -14,7 +14,7 @@ module Smalruby3
 
     def initialize(options = {})
       defaults = {
-        scale: 1,
+        scale: 2,
         fps: 15,
       }
       opts = Util.process_options(options, defaults)
