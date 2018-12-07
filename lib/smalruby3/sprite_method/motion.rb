@@ -11,6 +11,18 @@ module Smalruby3
         self.direction += degrees
         direction
       end
+      
+      def turn_left(degrees)
+        turn_right(-degrees)
+      end
+      
+      def go_to(destination)
+        if destination == "_random_"
+          self.x = rand(SmalrubyToDXRuby::SCREEN_LEFT..SmalrubyToDXRuby::SCREEN_RIGHT)
+          self.y = rand(SmalrubyToDXRuby::SCREEN_BOTTOM..SmalrubyToDXRuby::SCREEN_TOP)
+        end
+        direction
+      end
 
       def direction=(degrees)
         @direction = calc_direction(degrees)

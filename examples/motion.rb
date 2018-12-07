@@ -35,23 +35,11 @@ Sprite.new("スプライト1",
                rotation_center_y: 55
              }
            ]) do
-  self.when(:key_pressed, "left arrow") do
-    self.x += -1 * $speed
-  end
-
-  self.when(:key_pressed, "right arrow") do
-    self.x += $speed
-  end
-
-  self.when(:key_pressed, "up arrow") do
-    self.y += $speed
-  end
-
-  self.when(:key_pressed, "down arrow") do
-    self.y += -1 * $speed
-  end
-
   self.when(:flag_clicked) do
-    $speed = 10
+    go_to("_random_")
+#    sleep(1)
+#    go_to("_mouse_")
+#    sleep(1)
+#    go_to([100, 100])
   end
 end
