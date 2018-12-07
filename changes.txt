@@ -1,2 +1,0 @@
-1.turn_leftの実装
-2.go_to("_random_")の実装
