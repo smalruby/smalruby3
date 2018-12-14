@@ -20,6 +20,9 @@ module Smalruby3
         if destination == "_random_"
           new_x = rand(SmalrubyToDXRuby::SCREEN_LEFT..SmalrubyToDXRuby::SCREEN_RIGHT)
           new_y = rand(SmalrubyToDXRuby::SCREEN_BOTTOM..SmalrubyToDXRuby::SCREEN_TOP)
+        else
+          new_x = destination.x
+          new_y = destination.y
         end
         self.position = [new_x, new_y]
         direction
