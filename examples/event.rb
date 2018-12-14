@@ -42,7 +42,7 @@ Sprite.new("スプライト1",
     end
   end
 
-  self.when(:greater_than, "LOUDNESS", 10)  do
+  self.when(:greater_than, "LOUDNESS", 10) do
     move(10)
   end
 
@@ -54,7 +54,7 @@ Sprite.new("スプライト1",
     turn_right(15)
   end
 
-  self.when(:greater_than, "LOUDNESS", 10)  do
+  self.when(:greater_than, "LOUDNESS", 10) do
     move(10)
   end
 
