@@ -11,11 +11,11 @@ module Smalruby3
         self.direction += degrees
         direction
       end
-      
+
       def turn_left(degrees)
         turn_right(-degrees)
       end
-      
+
       def go_to(destination)
         if destination == "_random_"
           new_x = rand(SmalrubyToDXRuby::SCREEN_LEFT..SmalrubyToDXRuby::SCREEN_RIGHT)
