@@ -31,6 +31,14 @@ module Smalruby3
       def wait
         Smalruby3.wait
       end
+
+      def create_clone(option)
+        raise NotImplementedError, "not implemented: create_clone(#{option.inspect})"
+      end
+
+      def delete_this_clone
+        raise NotImplementedError, "not implemented: delete_this_clone"
+      end
     end
   end
 end
