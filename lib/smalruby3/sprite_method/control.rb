@@ -40,7 +40,15 @@ module Smalruby3
       end
 
       def create_clone(option)
-        raise NotImplementedError, "not implemented: create_clone(#{option.inspect})"
+        if option == "_myself_"
+          # 自分自身のコピーをつくる
+          cloned = self.clone
+          # 自分自身がつくったものや、お願いしたこともコピーする
+          cloned.instance_variable_set("@dxruby_sprite", DXRuby::Sprite.new(0, 0))
+          cloned.send(:sync_costumes)
+        end
+        cloned.name += rand(1000000).to_s
+        World.instance.add_target(cloned)
       end
 
       def delete_this_clone
