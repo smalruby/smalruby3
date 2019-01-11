@@ -8,6 +8,13 @@ module Smalruby3
         other_scripts: "other scripts in sprite"
       }
 
+      def repeat(num, &_block)
+        num.times do
+          yield
+          wait
+        end
+      end
+
       def forever(&_block)
         loop do
           yield
