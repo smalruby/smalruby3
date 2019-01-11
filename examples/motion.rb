@@ -36,10 +36,8 @@ Sprite.new("スプライト1",
              }
            ]) do
   self.when(:flag_clicked) do
-    go_to("_random_")
-    #   sleep(1)
-    #   go_to("_mouse_")
-    #   sleep(1)
-    #   go_to([100, 100])
+    1_000_000.times do
+      go_to("_mouse_")
+    end
   end
 end
