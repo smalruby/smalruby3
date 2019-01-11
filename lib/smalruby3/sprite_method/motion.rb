@@ -18,6 +18,10 @@ module Smalruby3
         sync_direction
       end
 
+      def point_towards(towards)
+        raise Not implementedError, "not implemnted: delete_this_cloane"
+      end
+      
       def x=(val)
         @x = calc_x(val)
 
