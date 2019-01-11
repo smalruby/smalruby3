@@ -18,7 +18,7 @@ module Smalruby3
       def forever(&_block)
         loop do
           yield
-          Smalruby3.wait
+          wait
         end
       end
 
