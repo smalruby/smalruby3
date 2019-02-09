@@ -8,10 +8,17 @@ module Smalruby3
         other_scripts: "other scripts in sprite"
       }
 
+      def repeat(num, &_block)
+        num.times do
+          yield
+          wait
+        end
+      end
+
       def forever(&_block)
         loop do
           yield
-          Smalruby3.wait
+          wait
         end
       end
 
@@ -30,6 +37,22 @@ module Smalruby3
 
       def wait
         Smalruby3.wait
+      end
+
+      def create_clone(option)
+        if option == "_myself_"
+          # 自分自身のコピーをつくる
+          cloned = clone
+          # 自分自身がつくったものや、お願いしたこともコピーする
+          cloned.instance_variable_set("@dxruby_sprite", DXRuby::Sprite.new(0, 0))
+          cloned.send(:sync_costumes)
+        end
+        cloned.name += rand(1000000).to_s
+        World.instance.add_target(cloned)
+      end
+
+      def delete_this_clone
+        raise NotImplementedError, "not implemented: delete_this_clone"
       end
     end
   end

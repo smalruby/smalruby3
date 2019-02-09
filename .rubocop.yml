@@ -135,3 +135,9 @@ Style/GlobalVars:
 
 Style/WordArray:
   Enabled: false
+
+Style/AsciiComments:
+  Enabled: false
+
+Style/NumericLiterals:
+  Enabled: false
