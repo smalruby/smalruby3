@@ -138,3 +138,6 @@ Style/WordArray:
 
 Style/AsciiComments:
   Enabled: false
+
+Style/NumericLiterals:
+  Enabled: false
