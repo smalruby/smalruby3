@@ -10,11 +10,15 @@ module Smalruby3
       end
       
       def broadcast(message)
-        raise NotImplementedError, "not implemented: broadcast(#{message.inspect})"
+        World.instance.targets.each do |o|
+          o.fire(:receive, message)
+        end
       end
 
       def broadcast_and_wait(message)
-        raise NotImplementedError, "not implemented: broadcast_and_wait(#{message.inspect})"
+        World.instance.targets.each do |o|
+          o.fire(:receive, message)
+        end
       end
     end
   end
