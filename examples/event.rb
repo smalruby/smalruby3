@@ -33,13 +33,13 @@ Sprite.new("スプライト1",
              }
            ]) do
   self.when(:flag_clicked) do
+    sleep(1)
     broadcast("こんにちは")
-    broadcast_and_wait("こんにちは")
-    loop do
-      move(10)
-      bounce_if_on_edge
-      wait
-    end
+    #broadcast_and_wait("こんにちは")
+    #move(10)
+      #bounce_if_on_edge
+     # wait
+    #end
   end
 
   self.when(:greater_than, "LOUDNESS", 10) do
