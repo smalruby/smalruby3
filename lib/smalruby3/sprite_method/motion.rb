@@ -18,6 +18,15 @@ module Smalruby3
         sync_direction
       end
 
+      def point_towards(towards) # 対象物に対して体を向ける
+        tx = sprite(towards).x
+        ty = sprite(towards).y
+        dx = tx - x
+        dy = ty - y
+        rad = Math.atan2(dx, dy)
+        self.direction = rad * 180.0 / Math::PI
+      end
+      
       def x=(val)
         @x = calc_x(val)
 
