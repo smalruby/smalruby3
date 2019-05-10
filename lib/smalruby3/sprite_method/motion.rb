@@ -32,6 +32,29 @@ module Smalruby3
         direction
       end
 
+      def glide(destination, secs: 1)
+        fps = 60.0
+        wait_seconds = 1 / fps
+        roop_count = (secs * fps).round
+        if destination == "_random_"
+          new_x = rand(SmalrubyToDXRuby::SCREEN_LEFT..SmalrubyToDXRuby::SCREEN_RIGHT)
+          new_y = rand(SmalrubyToDXRuby::SCREEN_BOTTOM..SmalrubyToDXRuby::SCREEN_TOP)
+          new_pos = [new_x, new_y]
+        elsif destination == "_mouse_"
+          new_pos = calc_mouse_position
+        elsif destination.is_a?(Array)
+          new_pos = destination
+        end
+        diffrence_x = (new_pos[0] - self.x) / roop_count.to_f
+        diffrence_y = (new_pos[1] - self.y) / roop_count.to_f
+        roop_count.times do
+          self.x += diffrence_x
+          self.y += diffrence_y
+          sleep(wait_seconds)
+        end
+        self.position = new_pos
+      end
+
       def direction=(degrees)
         @direction = calc_direction(degrees)
 
