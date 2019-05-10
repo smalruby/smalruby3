@@ -19,15 +19,7 @@ module Smalruby3
       end
 
       def go_to(destination)
-        if destination == "_random_"
-          new_x = rand(SmalrubyToDXRuby::SCREEN_LEFT..SmalrubyToDXRuby::SCREEN_RIGHT)
-          new_y = rand(SmalrubyToDXRuby::SCREEN_BOTTOM..SmalrubyToDXRuby::SCREEN_TOP)
-          new_pos = [new_x, new_y]
-        elsif destination == "_mouse_"
-          new_pos = calc_mouse_position
-        elsif destination.is_a?(Array)
-          new_pos = destination
-        end
+        new_pos = convert_position(destination)
         self.position = new_pos
         direction
       end
@@ -36,15 +28,7 @@ module Smalruby3
         fps = 60.0
         wait_seconds = 1 / fps
         roop_count = (secs * fps).round
-        if destination == "_random_"
-          new_x = rand(SmalrubyToDXRuby::SCREEN_LEFT..SmalrubyToDXRuby::SCREEN_RIGHT)
-          new_y = rand(SmalrubyToDXRuby::SCREEN_BOTTOM..SmalrubyToDXRuby::SCREEN_TOP)
-          new_pos = [new_x, new_y]
-        elsif destination == "_mouse_"
-          new_pos = calc_mouse_position
-        elsif destination.is_a?(Array)
-          new_pos = destination
-        end
+        new_pos = convert_position(destination)
         diffrence_x = (new_pos[0] - x) / roop_count.to_f
         diffrence_y = (new_pos[1] - y) / roop_count.to_f
         roop_count.times do
@@ -124,6 +108,19 @@ module Smalruby3
         dx_mouse_y = Input.mousePosY
         dx_ruby_to_smalruby = DXRubyToSmalruby.new
         dx_ruby_to_smalruby.position(dx_mouse_x, dx_mouse_y)
+      end
+
+      def convert_position(position)
+        if position == "_random_"
+          new_x = rand(SmalrubyToDXRuby::SCREEN_LEFT..SmalrubyToDXRuby::SCREEN_RIGHT)
+          new_y = rand(SmalrubyToDXRuby::SCREEN_BOTTOM..SmalrubyToDXRuby::SCREEN_TOP)
+          new_pos = [new_x, new_y]
+        elsif position == "_mouse_"
+          new_pos = calc_mouse_position
+        elsif position.is_a?(Array)
+          new_pos = position
+        end
+        new_pos
       end
     end
   end
