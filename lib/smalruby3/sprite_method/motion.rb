@@ -45,8 +45,8 @@ module Smalruby3
         elsif destination.is_a?(Array)
           new_pos = destination
         end
-        diffrence_x = (new_pos[0] - self.x) / roop_count.to_f
-        diffrence_y = (new_pos[1] - self.y) / roop_count.to_f
+        diffrence_x = (new_pos[0] - x) / roop_count.to_f
+        diffrence_y = (new_pos[1] - y) / roop_count.to_f
         roop_count.times do
           self.x += diffrence_x
           self.y += diffrence_y
