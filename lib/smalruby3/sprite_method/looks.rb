@@ -6,6 +6,14 @@ module Smalruby3
         # コンソール上にmessageの表示
         puts message, second.inspect
       end
+
+      def show
+        @visible = true
+      end
+
+      def hide
+        @visible = false
+      end
     end
   end
 end
