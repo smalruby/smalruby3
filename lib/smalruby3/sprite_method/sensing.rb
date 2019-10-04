@@ -1,7 +1,7 @@
 module Smalruby3
   module SpriteMethod
     module Sensing
-      def touching?(object) 
+      def touching?(object)
         case object
         when "_edge_"
           x <= SmalrubyToDXRuby::SCREEN_LEFT || x >= SmalrubyToDXRuby::SCREEN_RIGHT ||
@@ -10,8 +10,8 @@ module Smalruby3
           dx_mouse_x = Input.mousePosX
           dx_mouse_y = Input.mousePosY
           mouse_x, mouse_y = *dx2s.position(dx_mouse_x, dx_mouse_y)
-          x + costume.width/2 >= mouse_x  && x - costume.width/2 <= mouse_x &&
-            y - costume.height/2 <= mouse_y && y + costume.height/2 >= mouse_y
+          x + costume.width / 2 >= mouse_x && x - costume.width / 2 <= mouse_x &&
+            y - costume.height / 2 <= mouse_y && y + costume.height / 2 >= mouse_y
         else
           if !sprite(object)
             raise ArgumentError, "invalid object: #{object}"
