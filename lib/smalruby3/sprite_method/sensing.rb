@@ -2,7 +2,7 @@ module Smalruby3
   module SpriteMethod
     module Sensing
       def touching?(object) 
-        case (object)
+        case object
         when "_edge_"
           x <= SmalrubyToDXRuby::SCREEN_LEFT || x >= SmalrubyToDXRuby::SCREEN_RIGHT ||
             y <= SmalrubyToDXRuby::SCREEN_BOTTOM || y >= SmalrubyToDXRuby::SCREEN_TOP
@@ -17,7 +17,7 @@ module Smalruby3
             raise ArgumentError, "invalid object: #{object}"
           end
         end
-     end
+      end
     end
   end
 end
