@@ -9,10 +9,12 @@ module Smalruby3
     attr_accessor :stage
     attr_accessor :sprites
     attr_reader :s2dx
+    attr_reader :dx2s
 
     def initialize
       reset
       @s2dx = SmalrubyToDXRuby.new
+      @dx2s = DXRubyToSmalruby.new
     end
 
     def add_target(stage_or_sprite)

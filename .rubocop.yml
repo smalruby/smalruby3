@@ -14,7 +14,7 @@ Layout/DotPosition:
   EnforcedStyle: "trailing"
 
 Metrics/AbcSize:
-  Max: 25
+  Max: 50
 
 Metrics/BlockLength:
   Max: 100
@@ -31,6 +31,8 @@ Metrics/MethodLength:
 Metrics/ModuleLength:
   Max: 250
 
+Metrics/PerceivedComplexity:
+  Max: 10
 Naming/HeredocDelimiterNaming:
   Enabled: false
 
@@ -140,4 +142,7 @@ Style/AsciiComments:
   Enabled: false
 
 Style/NumericLiterals:
+  Enabled: false
+
+Layout/EndOfLine:
   Enabled: false

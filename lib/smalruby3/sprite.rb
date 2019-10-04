@@ -180,6 +180,10 @@ module Smalruby3
       World.instance.s2dx
     end
 
+    def dx2s
+      World.instance.dx2s
+    end
+
     def sync_position
       dx_x, dx_y = *s2dx.position(x, y)
       if (c = costume)
