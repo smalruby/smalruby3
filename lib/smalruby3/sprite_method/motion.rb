@@ -46,10 +46,9 @@ module Smalruby3
       end
 
       def point_towards(towards)
-        tx = sprite(towards).x
-        ty = sprite(towards).y
-        dx = tx - x
-        dy = ty - y
+        toward_pos = convert_position(towards)
+        dx = toward_pos[0] - x
+        dy = toward_pos[1] - y
         rad = Math.atan2(dx, dy)
         self.direction = rad * 180.0 / Math::PI
       end
