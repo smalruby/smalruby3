@@ -36,8 +36,9 @@ Sprite.new("スプライト1",
              }
            ]) do
   self.when(:flag_clicked) do
-    1_000_000.times do
-      go_to("_mouse_")
+    sleep(1)
+    10.times do
+      glide("_mouse_", secs: 1)
     end
   end
 end
